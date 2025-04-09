@@ -465,7 +465,7 @@
         document.querySelector(".details-container").classList.add("d-none");
         document.querySelector(".crop-selection-container").classList.remove("d-none");
 
-        firebase.firestore().collection("users").doc(uid).set({userdetails:usersignupdetails});
+        firebase.firestore().collection("users").doc(uid).set({userdetail:userinfo},{ merge: true });
         
     });
 
@@ -566,7 +566,7 @@
 
       // Log selected crops and save to Firestore
       console.log("Selected crops:", selectedCrops);
-      firebase.firestore().collection("users").doc(uid).set({ selectedcrops: selectedCrops });
+      firebase.firestore().collection("users").doc(uid).set({ selectedcrops: selectedCrops },{ merge: true });
 
       // Simulate a delay before redirecting to home.html
       setTimeout(() => {
