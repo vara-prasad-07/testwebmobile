@@ -379,45 +379,75 @@
       <script type="module" src="js/auth.js"></script>
       <script type="module" src="sdk.js">
       </script>
-      <script type="module">
+            <script type="module">
         const signUpForm = document.getElementById('signUpForm');
-      const signInForm = document.getElementById('signInForm');
-      signUpForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('setpassword').value;
-        try {
-          const result = await window.registerWithEmailAndPassword(email, password);
-          alert("Registration successful! Please verify your email.");
-          console.log(result);
-        } catch (error) {
-          alert("Registration failed: " + error.message);
-        }
-      });
-
-      // Sign In form submission
-            signInForm.addEventListener('submit', async (e) => {
+        const signInForm = document.getElementById('signInForm');
+      
+        // Add a loading spinner element
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.id = 'loadingSpinner';
+        loadingSpinner.style.display = 'none';
+        loadingSpinner.style.position = 'fixed';
+        loadingSpinner.style.top = '50%';
+        loadingSpinner.style.left = '50%';
+        loadingSpinner.style.transform = 'translate(-50%, -50%)';
+        loadingSpinner.style.zIndex = '1000';
+        loadingSpinner.innerHTML = `
+          <div style="text-align: center;">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p style="margin-top: 10px; color: #2E7D32;">Signing in...</p>
+          </div>
+        `;
+        document.body.appendChild(loadingSpinner);
+      
+        signUpForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = document.getElementById('signup-email').value;
+          const password = document.getElementById('setpassword').value;
+          try {
+            loadingSpinner.style.display = 'block'; // Show loading spinner
+            const result = await window.registerWithEmailAndPassword(email, password);
+            console.log(result);
+            setTimeout(() => {
+              loadingSpinner.style.display = 'none'; // Hide loading spinner
+              window.location.href = "userdetails.html";
+            }, 2000);
+             // Hide loading spinner
+          } catch (error) {
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
+            alert("Registration failed: " + error.message);
+          }
+        });
+      
+        // Sign In form submission
+        signInForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           const email = document.getElementById('emailOrPhone').value;
           const password = document.getElementById('password').value;
           try {
-              const result = await window.loginWithEmailAndPassword(email, password);
-              alert("Login successful!");
-              console.log(result);
+            loadingSpinner.style.display = 'block'; // Show loading spinner
+            const result = await window.loginWithEmailAndPassword(email, password);
+            console.log(result);
+            // Redirect to userdetails.html after successful login
+            setTimeout(() => {
+              loadingSpinner.style.display = 'none'; // Hide loading spinner
+              window.location.href = "home.html";
+            }, 2000); // Simulate a delay of 2 seconds
           } catch (error) {
-              if (error.code === "auth/invalid-email") {
-                  alert("Invalid email format. Please check your email.");
-              } else if (error.code === "auth/user-not-found") {
-                  alert("No user found with this email. Please sign up first.");
-              } else if (error.code === "auth/wrong-password") {
-                  alert("Incorrect password. Please try again.");
-              } else {
-                  alert("Login failed: " + error.message);
-              }
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
+            if (error.code === "auth/invalid-email") {
+              alert("Invalid email format. Please check your email.");
+            } else if (error.code === "auth/user-not-found") {
+              alert("No user found with this email. Please sign up first.");
+            } else if (error.code === "auth/wrong-password") {
+              alert("Incorrect password. Please try again.");
+            } else {
+              alert("Login failed: " + error.message);
+            }
           }
-      });
-
-
+        });
       </script>
 
   
