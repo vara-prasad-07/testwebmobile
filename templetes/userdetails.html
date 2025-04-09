@@ -6,6 +6,10 @@
   <title>Select Your Crop (Interactive)</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+   <!-- Firebase App (the core Firebase SDK) -->
+   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+   <!-- Firestore -->
+   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
   <style>
     :root {
       --primary-color: #2e7d32;   /* Adjust as desired */
@@ -20,7 +24,7 @@
     }
     body {
       font-family: var(--font-family);
-      background-color: #f6f6f6;
+     
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -35,7 +39,7 @@
       background-color: #fff;
       border-radius: 8px;
       padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      
     }
     .userdetails {
         width: 100%;
@@ -48,7 +52,7 @@
 
     /* Title and subtitle */
     .crop-selection-container h2 {
-      font-size: 1.5rem;
+      font-size: 1.9rem;
       color: #333;
       margin-bottom: 0.5rem;
     }
@@ -193,11 +197,11 @@
         background-color: #fff;
         border-radius: 8px;
         padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        
       }
   
       .details-container h2 {
-        font-size: 1.5rem;
+        font-size: 1.9rem;
         color: #333;
         margin-bottom: 0.5rem;
       }
@@ -318,10 +322,6 @@
           </div>
     
           <!-- Date of Birth -->
-          <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            <input id="dob" type="date" />
-          </div>
     
           <!-- Gender - can be a select or radio buttons -->
           <div class="form-group">
@@ -339,17 +339,17 @@
           <div class="form-group">
             <label>Address</label>
             <div class="address-grid">
-              <input type="text" placeholder="Street Address" />
-              <input type="text" placeholder="City" />
-              <input type="number" placeholder="Zip Code" />
-              <input type="text" placeholder="State/Province" />
+              <input type="text" id="streetaddress" placeholder="Street Address" />
+              <input type="text" id="city" placeholder="City" />
+              <input type="number" id="zipcode" placeholder="Zip Code" />
+              <input type="text" id="state" placeholder="State/Province" />
             </div>
           </div>
     
           <!-- Referral Code -->
           <div class="form-group">
-            <label for="referralCode">Referral Code</label>
-            <input id="referralCode" type="text" placeholder="Enter referral code..." />
+            <label for="referralcode">Referral Code</label>
+            <input id="referralcode" type="text" placeholder="Enter referral code..." />
           </div>
     
           <!-- Buttons at the bottom (similar style to crop selection page) -->
@@ -401,6 +401,22 @@
   <script>
     // Example data for the crops (replace with your own).
     // Each object has an id, name, and an image URL
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnhqJ-zUQhXt1HbqoLz0U5s7kO_MqeILM",
+      authDomain: "projectmain-3b7bb.firebaseapp.com",
+      projectId: "projectmain-3b7bb",
+      storageBucket: "projectmain-3b7bb.firebasestorage.app",
+      messagingSenderId: "424248748744",
+      appId: "1:424248748744:web:fd0d515b38d1f668b653fd"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+
+
     const cropData = [
       { id: 1, name: "Tomato",       img: "https://png.pngtree.com/png-clipart/20230113/ourmid/pngtree-red-fresh-tomato-with-green-leaf-png-image_6561484.png" },
       { id: 2, name: "Green Chili",  img: "https://png.pngtree.com/png-clipart/20201221/ourmid/pngtree-fresh-green-chili-on-png-background-png-image_2629076.jpg" },
@@ -419,13 +435,38 @@
       { id: 15, name: "Grape",       img: "https://img.freepik.com/premium-psd/bunch-fresh-purple-grapes-isolated-transparent-background_812337-4830.jpg" },
       { id: 16, name: "Mango",       img: "https://img.freepik.com/free-psd/mango-isolated-fruits-transparent-background_191095-14911.jpg" }
     ];
-
+    let usersignupdetails=[];
     let submitbtn=document.getElementById("submitbtn");
+    let userinfo={};
+    let uid=JSON.parse(localStorage.getItem("authLogs"))[0].uid;
     submitbtn.addEventListener("click", function(e) {
         e.preventDefault()
-
+        let firstname=document.getElementById("username").value;
+        let secondname=document.getElementById("middleName")
+        let gender=document.getElementById("genderSelect").value;
+        let streetaddress=document.getElementById("streetaddress").value;
+        let city=document.getElementById("city").value;
+        let zipcode=document.getElementById("zipcode").value;
+        let state=document.getElementById("state").value;
+        let referralcode=document.getElementById("referralcode").value;
+        
+        userinfo={
+          uid:uid,
+          username:firstname,
+  
+          gender:gender,
+          streetaddress:streetaddress,
+          city:city,
+          zipcode:zipcode,
+          state:state
+        }
+        console.log(userinfo)
+        usersignupdetails.push(userinfo);
         document.querySelector(".details-container").classList.add("d-none");
         document.querySelector(".crop-selection-container").classList.remove("d-none");
+
+        firebase.firestore().collection("users").doc(uid).set({userdetails:usersignupdetails});
+        
     });
 
     // Selected crops array (store the IDs of crops user has selected)
@@ -453,7 +494,7 @@
           card.classList.add("selected");
         }
         // Event: clicking toggles selection
-        card.addEventListener("click", () => toggleSelection(crop.id, card));
+        card.addEventListener("click", () => toggleSelection(crop.id,crop.name,crop.img, card));
 
         const img = document.createElement("img");
         img.src = crop.img;
@@ -471,13 +512,13 @@
     }
 
     // Toggle the "selected" class and manage the selectedCrops array
-    function toggleSelection(cropId, cardElement) {
+    function toggleSelection(cropId, cropname,cropimg,cardElement) {
       const index = selectedCrops.indexOf(cropId);
       if (index === -1) {
         // Not yet selected, so select it
         // (Optional: limit to 8 crops)
-        if (selectedCrops.length < 8) {
-          selectedCrops.push(cropId);
+        if (selectedCrops.length < 4) {
+          selectedCrops.push({cropId,cropname,cropimg});
           cardElement.classList.add("selected");
         } else {
           alert("You can add a maximum of 8 crops.");
@@ -498,11 +539,40 @@
     // On "Next" button click
     document.getElementById("nextBtn").addEventListener("click", () => {
       if (selectedCrops.length === 0) {
-        alert("Please select at least one crop before proceeding.");
-      } else {
-        // For demonstration, we’ll just alert the selected crop IDs
-        alert("Selected Crop IDs: " + selectedCrops.join(", "));
-      }
+        alert("Please select at least four crop before proceeding.");
+      } else{
+      const loadingSpinner = document.createElement("div");
+      loadingSpinner.id = "loadingSpinner";
+      loadingSpinner.style.position = "fixed";
+      loadingSpinner.style.top = "50%";
+      loadingSpinner.style.left = "50%";
+      loadingSpinner.style.transform = "translate(-50%, -50%)";
+      loadingSpinner.style.zIndex = "1000";
+      loadingSpinner.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+      loadingSpinner.style.width = "100vw";
+      loadingSpinner.style.height = "100vh";
+      loadingSpinner.style.display = "flex";
+      loadingSpinner.style.justifyContent = "center";
+      loadingSpinner.style.alignItems = "center";
+      loadingSpinner.innerHTML = `
+        <div style="text-align: center;">
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p style="margin-top: 10px; color: #2E7D32;">Redirecting to home...</p>
+        </div>
+      `;
+      document.body.appendChild(loadingSpinner);
+
+      // Log selected crops and save to Firestore
+      console.log("Selected crops:", selectedCrops);
+      firebase.firestore().collection("users").doc(uid).set({ selectedcrops: selectedCrops });
+
+      // Simulate a delay before redirecting to home.html
+      setTimeout(() => {
+        window.location.href = "templetes/home.html"; // Redirect to home page
+      }, 2000); // 2-second delay
+    }
     });
 
     // Initial render (no filter)
