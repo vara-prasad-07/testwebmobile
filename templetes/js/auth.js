@@ -63,6 +63,8 @@ async function loginWithEmailAndPassword(email, password) {
       console.error("Error during login:", error);
       throw error;
   }}
+window.registerWithEmailAndPassword = registerWithEmailAndPassword;
+window.loginWithEmailAndPassword = loginWithEmailAndPassword;
 
 async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
