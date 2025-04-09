@@ -12,7 +12,7 @@
     <div class="profile-section">
       <!-- Replace with actual user image -->
       <img src="images/user-profile.jpg" alt="User Profile" class="profile-image" />
-      <h3>Raj kumar BL</h3>
+      <h3 id="nameprofile"></h3>
       <p>Rajkumarbl007@gmail.com</p>
     </div>
     <ul class="drawer-menu">
@@ -157,5 +157,33 @@
   </footer>
 
   <script src="js/home.js"></script>
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBnhqJ-zUQhXt1HbqoLz0U5s7kO_MqeILM",
+        authDomain: "projectmain-3b7bb.firebaseapp.com",
+        projectId: "projectmain-3b7bb",
+        storageBucket: "projectmain-3b7bb.firebasestorage.app",
+        messagingSenderId: "424248748744",
+        appId: "1:424248748744:web:fd0d515b38d1f668b653fd"
+      };
+  
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+    let profile=document.getElementById("nameprofile")
+    let data1=null;
+    let uid=JSON.parse(localStorage.getItem("authLogs"))[0].uid;
+    firebase.firestore().collection("users").doc(uid).get()
+    .then((doc) => {
+        if (doc.exists) {
+            data1=doc.data()
+        console.log("Data:", doc.data());
+        } else {
+        console.log("No such document!");
+        }
+    });
+    profile.textContent=data1
+
+  </script>
 </body>
 </html>
