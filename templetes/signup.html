@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            /* Adjust to your preferred green */
+            --font-family: Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #f6f6f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* MAIN CONTAINER */
+        .signup-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ILLUSTRATION & TITLE */
+        .illustration {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 1rem;
+            background: url('https://res.cloudinary.com/diryolcmm/image/upload/v1744117247/DALL_E_2025-04-08_18.21.48_-_A_high-resolution_flat_vector-style_illustration_of_a_man_scanning_a_giant_QR_code_on_a_smartphone._The_man_is_holding_a_phone_and_wearing_a_green_hoo_kp8hcu.webp') no-repeat center/contain;
+        }
+
+        .signup-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        .signup-container p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        /* FORM FIELDS */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* TERMS & CHECKBOX */
+        .terms-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .terms-container input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .terms-container label {
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* BUTTON */
+        .btn-signup {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-signup:hover {
+            background-color: #256225;
+        }
+
+        /* LOGIN LINK */
+        .login-link {
+            margin-top: 1rem;
+            text-align: center;
+            color: #555;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* MEDIA QUERIES */
+        @media (min-width: 768px) {
+            .signup-container {
+                padding: 2.5rem 2rem;
+            }
+
+            .signup-container h2 {
+                font-size: 2rem;
+            }
+
+            .signup-container p {
+                font-size: 1.1rem;
+            }
+
+            .btn-signup {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signup-container">
+        <!-- Illustration (Replace with your own image if desired) -->
+        <div class="illustration"></div>
+
+        <h2>Sign Up</h2>
+        <p>Create a new account to continue</p>
+
+        <form>
+            <div class="form-group">
+                <label for="email">Enter your </label>
+                <input id="email" type="email" placeholder="example@domain.com" required />
+            </div>
+            <div class="form-group">
+                <label for="setpassword">Set Password </label>
+                <input id="setpassword" type="password" placeholder="set password" required />
+            </div>
+
+            <div class="form-group">
+                <label for="confirmpassword">Confirm Password </label>
+                <input id="confirmpassword" type="password" placeholder="confirm password" required />
+            </div>
+
+            <div class="terms-container">
+                <input type="checkbox" id="terms" required />
+                <label for="terms">By ticking you agree to our <a href="#">Terms and Policies</a></label>
+            </div>
+
+            <button type="submit" class="btn-signup">Sign Up</button>
+        </form>
+
+        <div class="login-link">
+            Already have an Account? <a href="#">Log in</a>
+        </div>
+    </div>
+</body>
+
+</html>
