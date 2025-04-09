@@ -1,12 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles/home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Cropfit Main Page</title>
+  <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
-    <!-- Content goes here -->
+  <!-- Side Drawer (hidden by default) -->
+  <nav id="sideDrawer" class="side-drawer">
+    <div class="profile-section">
+      <!-- Replace with actual user image -->
+      <img src="images/user-profile.jpg" alt="User Profile" class="profile-image" />
+      <h3>Raj kumar BL</h3>
+      <p>Rajkumarbl007@gmail.com</p>
+    </div>
+    <ul class="drawer-menu">
+      <li><a href="#" onclick="closeDrawer()">Appointment Booking</a></li>
+      <li><a href="#" onclick="closeDrawer()">Notification</a></li>
+      <li><a href="#" onclick="closeDrawer()">News</a></li>
+      <li><a href="#" onclick="closeDrawer()">Order History</a></li>
+      <li><a href="#" onclick="closeDrawer()">Settings</a></li>
+    </ul>
+  </nav>
+  <!-- Overlay for side drawer -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+
+  <!-- Header (fixed) -->
+  <header class="app-header">
+    <button class="icon-btn" onclick="openDrawer()">
+      <!-- Hamburger icon (SVG) -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <path d="M3 6h18M3 12h18M3 18h18" 
+              stroke="#fff" 
+              stroke-width="2" 
+              stroke-linecap="round"/>
+      </svg>
+    </button>
+    <h1 class="app-title">Cropfit</h1>
+    <!-- Right icons or menu if needed -->
+    <button class="icon-btn" onclick="showMenu()">
+      <!-- Dots icon -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <circle cx="12" cy="5" r="2" fill="#fff"/>
+        <circle cx="12" cy="12" r="2" fill="#fff"/>
+        <circle cx="12" cy="19" r="2" fill="#fff"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Main container: all "pages" are inside, we toggle them with JS -->
+  <main class="main-content">
+    <!-- HOME PAGE -->
+    <section id="homePage" class="page active">
+      <!-- “Select your Crop” preview with images -->
+      <div class="crop-selection-preview">
+        <h2>Select your Crop <a href="#" class="edit-link">Edit</a></h2>
+        <div class="crop-list">
+          <!-- Example crops (replace with real images) -->
+          <img src="images/tomato.png" alt="Tomato" />
+          <img src="images/mango.png" alt="Mango" />
+          <img src="images/banana.png" alt="Banana" />
+        </div>
+      </div>
+
+      <!-- Trending News -->
+      <div class="trending-news">
+        <div class="header-row">
+          <h3>Trending News</h3>
+          <a href="#" class="view-more">View More...</a>
+        </div>
+        <div class="news-card">
+          <a href="https://BusinessToday.in" target="_blank">
+            <h4>Latest News on manufacturing Sector - Magni Technology</h4>
+            <p class="time-info">23 Hours ago</p>
+          </a>
+          <img src="https://via.placeholder.com/80" alt="News" />
+        </div>
+        <!-- Could be a carousel or slider in reality -->
+      </div>
+
+      <!-- Crop Doctor -->
+      <div class="crop-doctor">
+        <h3>Be your Crop Doctor</h3>
+        <p>Take a picture, see a diagnosis, get a medicine</p>
+        <button class="take-picture-btn">Take Picture</button>
+      </div>
+
+      <!-- Weather Report -->
+      <div class="weather-report">
+        <h3>Weather report</h3>
+        <p>New Aditoprim 15 Nov <br> 26.8 C</p>
+        <p>Sunset: 6:00PM <br> Rain expected at 7:00PM</p>
+        <div class="weather-icon"> 
+          <!-- placeholder icon or real image -->
+          <img src="https://via.placeholder.com/50?text=Cloud" alt="Weather Icon" />
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY PAGE -->
+    <section id="communityPage" class="page">
+      <h2>Community</h2>
+      <p>This is the Community screen content...</p>
+    </section>
+
+    <!-- STORE PAGE -->
+    <section id="storePage" class="page">
+      <h2>Store</h2>
+      <p>This is the Store screen content...</p>
+    </section>
+
+    <!-- YOU PAGE -->
+    <section id="youPage" class="page">
+      <h2>Your Profile/Settings</h2>
+      <p>This is the “You” screen content...</p>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation (fixed) -->
+  <footer class="bottom-nav">
+    <button class="nav-btn" onclick="showPage('home')">
+      <!-- Home icon -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <path d="M12 3l8 8-1.4 1.4-6.6-6.6-6.6 6.6L4 11z" fill="#fff"/>
+        <path d="M5 10v10h14V10" stroke="#fff" stroke-width="2" fill="none"/>
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" onclick="showPage('community')">
+      <!-- Community icon (people) -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <circle cx="9" cy="9" r="4" fill="#fff"/>
+        <circle cx="17" cy="9" r="4" fill="none" stroke="#fff" stroke-width="2"/>
+        <path d="M5 20c0-2.8 2.2-5 5-5h4c2.8 0 5 2.2 5 5v1H5v-1z" stroke="#fff" stroke-width="2" fill="none"/>
+      </svg>
+      <span>Community</span>
+    </button>
+    <button class="nav-btn" onclick="showPage('store')">
+      <!-- Store icon (bag) -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <path d="M6 7l1-3h10l1 3z" fill="none" stroke="#fff" stroke-width="2"/>
+        <rect x="3" y="7" width="18" height="13" rx="2" ry="2" stroke="#fff" fill="none" stroke-width="2"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#fff" stroke-width="2" fill="none"/>
+      </svg>
+      <span>Store</span>
+    </button>
+    <button class="nav-btn" onclick="showPage('you')">
+      <!-- User icon -->
+      <svg viewBox="0 0 24 24" class="icon">
+        <circle cx="12" cy="8" r="4" stroke="#fff" fill="none" stroke-width="2"/>
+        <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" fill="none" stroke-width="2"/>
+      </svg>
+      <span>You</span>
+    </button>
+  </footer>
+
+  <script src="js/home.js"></script>
 </body>
 </html>

@@ -1,0 +1,253 @@
+/* Reset & Basic */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f6f6f6;
+    color: #333;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 60px; /* space for bottom nav */
+  }
+  
+  /* Header (fixed at top) */
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background-color: #2e7d32; /* your primary color */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 999;
+  }
+  .app-title {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  /* Icon button styles */
+  .icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .icon {
+    width: 24px;
+    height: 24px;
+    fill: #fff; /* icon color */
+  }
+  
+  /* Side Drawer */
+  .side-drawer {
+    position: fixed;
+    top: 0;
+    left: -240px; /* hidden initially */
+    width: 240px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  .side-drawer.open {
+    left: 0;
+  }
+  .profile-section {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+  }
+  .profile-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .profile-section p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  .drawer-menu {
+    list-style: none;
+  }
+  .drawer-menu li {
+    margin: 0.75rem 0;
+  }
+  .drawer-menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+  }
+  .drawer-menu a:hover {
+    color: #2e7d32;
+  }
+  
+  /* Drawer Overlay (semi-transparent background) */
+  .drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 999;
+    display: none; /* hidden by default */
+  }
+  
+  /* Main content area (under fixed header) */
+  .main-content {
+    margin-top: 56px; /* header height */
+    padding: 1rem;
+  }
+  
+  /* Each "page" is a section; only one is visible at a time. */
+  .page {
+    display: none; /* hide by default */
+  }
+  .page.active {
+    display: block;
+  }
+  
+  /* Example styling for the Home page content */
+  .crop-selection-preview {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .crop-selection-preview h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .crop-selection-preview .edit-link {
+    color: #2e7d32;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .crop-selection-preview .crop-list img {
+    width: 50px;
+    height: 50px;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  /* Trending News example */
+  .trending-news {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .trending-news .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .trending-news .header-row h3 {
+    font-size: 1rem;
+  }
+  .trending-news .view-more {
+    font-size: 0.9rem;
+    color: #2e7d32;
+    text-decoration: none;
+  }
+  .news-card {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .news-card a {
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+  }
+  .news-card img {
+    width: 60px;
+    height: 60px;
+    margin-left: 0.5rem;
+  }
+  .news-card h4 {
+    font-size: 0.9rem;
+  }
+  .news-card .time-info {
+    font-size: 0.75rem;
+    color: #777;
+  }
+  
+  /* Crop Doctor example */
+  .crop-doctor {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .take-picture-btn {
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  .take-picture-btn:hover {
+    background-color: #256225;
+  }
+  
+  /* Weather report example */
+  .weather-report {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 4rem; /* extra space for demo */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .weather-icon {
+    margin-top: 0.5rem;
+  }
+  
+  /* Bottom Navigation (fixed at bottom) */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background-color: #2e7d32;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 999;
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    flex: 1;
+  }
+  .nav-btn .icon {
+    display: block;
+    margin: 0 auto 2px;
+  }
+  .nav-btn span {
+    font-size: 0.7rem;
+  }
+  
