@@ -180,7 +180,7 @@
     </div>
     <!-- Auth Buttons -->
     <div class="auth-buttons">
-      <button class="btn signup">Sign Up</button>
+      <button class="btn signup" id="signup">Sign Up</button>
       <button class="btn login">Log In</button>
     </div>
     <div class="dots">
@@ -195,6 +195,10 @@
   // Simple JS for going to next/last slide
   let currentSlideIndex = 1;
   const totalSlides = 3;
+  let signupbtn=document.getElementById("signup");
+  signupbtn.addEventListener("click", function() {
+    window.location.href = "login.html"; // Redirect to signup page
+  });
 
   const showSlide = (index) => {
     // Hide all slides
@@ -210,7 +214,7 @@
     currentSlideIndex = 3;
     showSlide(currentSlideIndex);
   }
-
+   
   // If you want to automatically go to next slide on click:
   // (Example: tap the image to move forward - just for demonstration)
   document.getElementById("slide-1").addEventListener("click", () => {
