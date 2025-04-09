@@ -4,13 +4,13 @@ import { getFirestore, enableIndexedDbPersistence } from "https://www.gstatic.co
 
 // Firebase configuration (ensure these values match your Firebase project)
 const firebaseConfig = {
-  apiKey: process.env.APP_FIREBASE_API_KEY,
-  authDomain: process.env.APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.APP_FIREBASE_APP_ID
-};
+    apiKey: "AIzaSyBnhqJ-zUQhXt1HbqoLz0U5s7kO_MqeILM",
+    authDomain: "projectmain-3b7bb.firebaseapp.com",
+    projectId: "projectmain-3b7bb",
+    storageBucket: "projectmain-3b7bb.firebasestorage.app",
+    messagingSenderId: "424248748744",
+    appId: "1:424248748744:web:fd0d515b38d1f668b653fd"
+  };
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
