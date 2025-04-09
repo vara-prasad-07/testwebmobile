@@ -182,13 +182,20 @@
                 <label for="terms">By ticking you agree to our <a href="#">Terms and Policies</a></label>
             </div>
 
-            <button type="submit" class="btn-signup">Sign Up</button>
+            <button type="submit" class="btn-signup" id="signupbtn">Sign Up</button>
         </form>
 
         <div class="login-link">
             Already have an Account? <a href="#">Log in</a>
         </div>
     </div>
+    <script>
+        let sinupbtn=document.getElementById("signupbtn")
+        sinupbtn.addEventListener("click",function(event){
+            event.preventDefault(); // Prevent the default form submission
+            window.location.href = "userdetails.html"// Replace with your desired action
+        });
+    </script>
 </body>
 
 </html>

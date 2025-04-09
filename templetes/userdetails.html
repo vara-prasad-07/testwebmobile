@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Select Your Crop (Interactive)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --primary-color: #2e7d32;   /* Adjust as desired */
+      --border-color: #ccc;
+      --font-family: Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-family);
+      background-color: #f6f6f6;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Main container */
+    .crop-selection-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .userdetails {
+        width: 100%;
+        max-width: 480px;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+    /* Title and subtitle */
+    .crop-selection-container h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .crop-selection-container p.subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Search box */
+    .search-box {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 0.5rem 1rem;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+    .search-box button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      fill: #999;
+    }
+
+    /* "You can add maximum of 8 crops" row */
+    .max-crops-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .dotted-separator {
+      flex: 0 0 auto;
+      border-top: 1px dotted #999;
+      width: 60px;
+      margin-left: 1rem;
+    }
+
+    /* Grid of crops */
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .crop-card {
+      position: relative; /* For the tick mark positioning */
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .crop-card:hover {
+      background-color: #e5e5e5;
+    }
+    .crop-card img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+    .crop-name {
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    /* Tick mark (shown if selected) */
+    .selected::after {
+      content: "✔";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      color: #fff;
+      background-color: var(--primary-color);
+      font-size: 1rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Bottom buttons */
+    .bottom-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .bottom-buttons button {
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-skip {
+      background-color: transparent;
+      color: #666;
+    }
+    .btn-next {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+    .btn-next:hover {
+      background-color: #256225;
+    }
+
+    /* Media queries */
+    @media (min-width: 600px) {
+      .crop-selection-container {
+        padding: 2rem;
+      }
+      .crop-selection-container h2 {
+        font-size: 1.75rem;
+      }
+      .crop-selection-container p.subtitle {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Main container, similar styling to the crop selection design */
+    .details-container {
+        width: 100%;
+        max-width: 480px;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      .details-container h2 {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      .details-container p.subtitle {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 1.25rem;
+      }
+  
+      /* Form styling */
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-weight: 500;
+        color: #333;
+      }
+      .form-group input[type="text"],
+      .form-group input[type="date"],
+      .form-group input[type="number"],
+      .form-group select {
+        width: 100%;
+        padding: 0.6rem 0.7rem;
+        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        outline: none;
+      }
+      .form-group input[type="text"]:focus,
+      .form-group input[type="date"]:focus,
+      .form-group input[type="number"]:focus,
+      .form-group select:focus {
+        border-color: var(--primary-color);
+      }
+  
+      /* If you want gender as radio buttons instead of a select */
+      .gender-options {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+      .gender-options label {
+        font-weight: normal;
+      }
+  
+      /* Address fields in a grid (optional) */
+      .address-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      /* For narrower devices, revert to single column */
+      @media (max-width: 500px) {
+        .address-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+  
+      /* Bottom buttons (similar to previous design) */
+      .bottom-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+      .bottom-buttons button {
+        border: none;
+        border-radius: 4px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .btn-skip {
+        background-color: transparent;
+        color: #666;
+      }
+      .btn-next {
+        background-color: var(--primary-color);
+        color: #fff;
+      }
+      .btn-next:hover {
+        background-color: #256225;
+      }
+  
+      /* Media queries for slightly larger screens */
+      @media (min-width: 600px) {
+        .details-container {
+          padding: 2rem;
+        }
+        .details-container h2 {
+          font-size: 1.75rem;
+        }
+        .details-container p.subtitle {
+          font-size: 1.1rem;
+        }
+      }
+  </style>
+</head>
+<body>
+    <div class="details-container d-block">
+        <h2>Additional Info</h2>
+        <p class="subtitle">Please fill in these optional details</p>
+    
+        <!-- Form starts here -->
+        <form>
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" placeholder="Pick a unique username..." />
+          </div>
+    
+          <!-- Middle Name -->
+          <div class="form-group">
+            <label for="middleName">Middle Name (optional)</label>
+            <input id="middleName" type="text" placeholder="Enter middle name..." />
+          </div>
+    
+          <!-- Date of Birth -->
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input id="dob" type="date" />
+          </div>
+    
+          <!-- Gender - can be a select or radio buttons -->
+          <div class="form-group">
+            <label for="genderSelect">Gender</label>
+            <select id="genderSelect">
+              <option value="">Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-Binary</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </div>
+    
+          <!-- Address: Street, City, Zip Code in a grid -->
+          <div class="form-group">
+            <label>Address</label>
+            <div class="address-grid">
+              <input type="text" placeholder="Street Address" />
+              <input type="text" placeholder="City" />
+              <input type="number" placeholder="Zip Code" />
+              <input type="text" placeholder="State/Province" />
+            </div>
+          </div>
+    
+          <!-- Referral Code -->
+          <div class="form-group">
+            <label for="referralCode">Referral Code</label>
+            <input id="referralCode" type="text" placeholder="Enter referral code..." />
+          </div>
+    
+          <!-- Buttons at the bottom (similar style to crop selection page) -->
+          <div class="bottom-buttons">
+           
+            <button class="btn-next" type="submit" id="submitbtn">Next</button>
+          </div>
+        </form>
+        <!-- Form ends here -->
+      </div>
+  <div class="crop-selection-container d-none">
+    <h2>Select your Crop</h2>
+    <p class="subtitle">Get special advisory for your crop</p>
+
+    <!-- Search box with icon -->
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="Search" />
+      <button type="button">
+        <!-- Simple magnifying glass icon (SVG) -->
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 0 0 
+              1.48-5.34C14.86 6.24 12.76 4 10.09 4 
+              7.13 4 4.6 6.53 4.6 9.5c0 2.67 2.24 
+              4.77 5.05 4.92a6.471 6.471 0 0 0 5.34-1.48l.27.28v.79l4.25 
+              4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 
+              0-1.49L15.5 14zm-5.4 0C7.57 14 5.5 
+              11.93 5.5 9.5S7.57 5 10.09 5c2.43 0 
+              4.5 2.07 4.5 4.5s-2.07 4.5-4.5 4.5z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- "You can add maximum of 8 crops" line + dotted separator -->
+    <div class="max-crops-row">
+      <span>You can add maximum of 8 crops</span>
+      <div class="dotted-separator"></div>
+    </div>
+
+    <!-- Grid of crops (populated by JS) -->
+    <div class="crop-grid" id="cropGrid"></div>
+
+    <!-- Bottom buttons -->
+    <div class="bottom-buttons">
+      <button class="btn-skip" type="button">Skip</button>
+      <button class="btn-next" type="button" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    // Example data for the crops (replace with your own).
+    // Each object has an id, name, and an image URL
+    const cropData = [
+      { id: 1, name: "Tomato",       img: "https://png.pngtree.com/png-clipart/20230113/ourmid/pngtree-red-fresh-tomato-with-green-leaf-png-image_6561484.png" },
+      { id: 2, name: "Green Chili",  img: "https://png.pngtree.com/png-clipart/20201221/ourmid/pngtree-fresh-green-chili-on-png-background-png-image_2629076.jpg" },
+      { id: 3, name: "Red Chili",    img: "https://w7.pngwing.com/pngs/519/924/png-transparent-red-chilli-pepper-thumbnail.png" },
+      { id: 4, name: "Onion",        img: "https://png.pngtree.com/png-clipart/20201209/original/pngtree-onion-png-image_5636682.jpg" },
+      { id: 5, name: "Okra",         img: "https://png.pngtree.com/png-vector/20200907/ourmid/pngtree-four-green-okra-stacked-png-image_2339230.jpg" },
+      { id: 6, name: "Brinjal",      img: "https://image.similarpng.com/file/similarpng/very-thumbnail/2021/06/Green-cabbage-isolated-on-transparent-background-PNG.png" },
+      { id: 7, name: "Cabbage",      img: "https://image.similarpng.com/file/similarpng/very-thumbnail/2021/06/Green-cabbage-isolated-on-transparent-background-PNG.png" },
+      { id: 8, name: "Muskmelon",    img: "https://png.pngtree.com/png-vector/20220120/ourmid/pngtree-summer-fruit-cantaloupe-png-image_4356848.png" },
+      { id: 9, name: "Carrot",       img: "https://png.pngtree.com/png-clipart/20200709/original/pngtree-carrot-png-image_799236.jpg" },
+      { id: 10, name: "Apple",       img: "https://png.pngtree.com/png-vector/20210522/ourmid/pngtree-apple-is-naturally-thirsty-and-healthy-png-image_3323218.jpg" },
+      { id: 11, name: "Beans",       img: "https://png.pngtree.com/png-vector/20210710/ourmid/pngtree-kidney-bean-ingredients-big-red-beans-red-kidney-beans-png-image_3566234.jpg" },
+      { id: 12, name: "Banana",      img: "https://png.pngtree.com/png-vector/20210526/ourmid/pngtree-banana-diet-health-tropics-png-image_3356842.jpg" },
+      { id: 13, name: "Capsicum",    img: "https://png.pngtree.com/png-vector/20210526/ourmid/pngtree-sweet-pepper-red-food-png-image_3351736.jpg" },
+      { id: 14, name: "Citrus",      img: "https://png.pngtree.com/png-clipart/20201209/original/pngtree-citrus-png-image_5631906.jpg" },
+      { id: 15, name: "Grape",       img: "https://img.freepik.com/premium-psd/bunch-fresh-purple-grapes-isolated-transparent-background_812337-4830.jpg" },
+      { id: 16, name: "Mango",       img: "https://img.freepik.com/free-psd/mango-isolated-fruits-transparent-background_191095-14911.jpg" }
+    ];
+
+    let submitbtn=document.getElementById("submitbtn");
+    submitbtn.addEventListener("click", function(e) {
+        e.preventDefault()
+
+        document.querySelector(".details-container").classList.add("d-none");
+        document.querySelector(".crop-selection-container").classList.remove("d-none");
+    });
+
+    // Selected crops array (store the IDs of crops user has selected)
+    let selectedCrops = [];
+
+    const cropGrid = document.getElementById("cropGrid");
+    const searchInput = document.getElementById("searchInput");
+
+    // Render crops in the grid based on filter text
+    function renderCrops(filterText = "") {
+      // Clear any existing content
+      cropGrid.innerHTML = "";
+
+      // Filter logic (case-insensitive)
+      const filtered = cropData.filter(crop => 
+        crop.name.toLowerCase().includes(filterText.toLowerCase())
+      );
+
+      // Generate new DOM elements
+      filtered.forEach(crop => {
+        const card = document.createElement("div");
+        card.classList.add("crop-card");
+        // If this crop is in the selected array, add the selected class
+        if (selectedCrops.includes(crop.id)) {
+          card.classList.add("selected");
+        }
+        // Event: clicking toggles selection
+        card.addEventListener("click", () => toggleSelection(crop.id, card));
+
+        const img = document.createElement("img");
+        img.src = crop.img;
+        img.alt = crop.name;
+
+        const nameDiv = document.createElement("div");
+        nameDiv.classList.add("crop-name");
+        nameDiv.textContent = crop.name;
+
+        card.appendChild(img);
+        card.appendChild(nameDiv);
+
+        cropGrid.appendChild(card);
+      });
+    }
+
+    // Toggle the "selected" class and manage the selectedCrops array
+    function toggleSelection(cropId, cardElement) {
+      const index = selectedCrops.indexOf(cropId);
+      if (index === -1) {
+        // Not yet selected, so select it
+        // (Optional: limit to 8 crops)
+        if (selectedCrops.length < 8) {
+          selectedCrops.push(cropId);
+          cardElement.classList.add("selected");
+        } else {
+          alert("You can add a maximum of 8 crops.");
+        }
+      } else {
+        // Already selected, so unselect
+        selectedCrops.splice(index, 1);
+        cardElement.classList.remove("selected");
+      }
+    }
+
+    // Listen to input changes in search
+    searchInput.addEventListener("input", e => {
+      const text = e.target.value;
+      renderCrops(text);
+    });
+
+    // On "Next" button click
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (selectedCrops.length === 0) {
+        alert("Please select at least one crop before proceeding.");
+      } else {
+        // For demonstration, we’ll just alert the selected crop IDs
+        alert("Selected Crop IDs: " + selectedCrops.join(", "));
+      }
+    });
+
+    // Initial render (no filter)
+    renderCrops();
+  </script>
+</body>
+</html>
