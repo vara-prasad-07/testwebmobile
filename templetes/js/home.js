@@ -50,7 +50,6 @@ function showPage(pageName) {
             <div class="news-content">
               <a href="${news.link}" target="_blank">
                 <h4>${news.title}</h4>
-                <p class="news-description">${news.description || "No description available."}</p>
                 <p class="time-info">${new Date(news.pubDate).toLocaleString()}</p>
               </a>
             </div>
