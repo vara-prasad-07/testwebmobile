@@ -31,3 +31,31 @@ function showPage(pageName) {
     alert("Implement top-right menu actions here");
   }
   
+  const carousel = document.querySelector('.news-carousel');
+const prevBtn = document.querySelector('.prev-btn');
+const nextBtn = document.querySelector('.next-btn');
+
+let currentIndex = 0;
+
+function updateCarousel() {
+  const cardWidth = document.querySelector('.news-card').offsetWidth;
+  carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+}
+
+prevBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex > 0) ? currentIndex - 1 : 0;
+  updateCarousel();
+});
+
+nextBtn.addEventListener('click', () => {
+  const totalCards = document.querySelectorAll('.news-card').length;
+  currentIndex = (currentIndex < totalCards - 1) ? currentIndex + 1 : totalCards - 1;
+  updateCarousel();
+});
+
+// Optional: Auto-slide every 5 seconds
+setInterval(() => {
+  const totalCards = document.querySelectorAll('.news-card').length;
+  currentIndex = (currentIndex < totalCards - 1) ? currentIndex + 1 : 0;
+  updateCarousel();
+}, 5000);
