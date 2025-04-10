@@ -164,3 +164,88 @@ function showPage(pageName) {
   
   // Call the function to fetch and display weather data
   fetchWeather();
+
+
+
+  // Trigger the file input for importing an image
+function triggerImportImage() {
+  const importInput = document.getElementById("importImageInput");
+  importInput.click();
+
+  importInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        displayImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+// Open the camera to take a picture
+function triggerTakePicture() {
+  const videoElement = document.createElement("video");
+  const captureButton = document.createElement("button");
+  const previewContainer = document.getElementById("imagePreview");
+
+  // Set up the video element
+  videoElement.autoplay = true;
+  videoElement.style.width = "100%";
+  videoElement.style.borderRadius = "8px";
+
+  // Set up the capture button
+  captureButton.textContent = "Capture";
+  captureButton.className = "btn btn-success mt-2";
+
+  // Clear the preview container and add the video and button
+  previewContainer.innerHTML = "";
+  previewContainer.appendChild(videoElement);
+  previewContainer.appendChild(captureButton);
+  previewContainer.style.display = "block";
+
+  // Access the user's camera
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then((stream) => {
+      videoElement.srcObject = stream;
+
+      captureButton.addEventListener("click", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        const context = canvas.getContext("2d");
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        // Stop the camera stream
+        stream.getTracks().forEach((track) => track.stop());
+
+        // Display the captured image
+        const imageData = canvas.toDataURL("image/png");
+        displayImage(imageData);
+      });
+    })
+    .catch((error) => {
+      console.error("Error accessing camera:", error);
+      alert("Unable to access the camera. Please check your device settings.");
+    });
+}
+
+// Display the selected or captured image
+function displayImage(imageSrc) {
+  const previewImage = document.getElementById("previewImage");
+  const getDiagnosisBtn = document.getElementById("getDiagnosisBtn");
+  const previewContainer = document.getElementById("imagePreview");
+
+  previewImage.src = imageSrc;
+  previewImage.style.width = "100%";
+  previewImage.style.borderRadius = "8px";
+  previewContainer.style.display = "block";
+  getDiagnosisBtn.style.display = "inline-block";
+}
+
+// Placeholder function for "Get Diagnosis"
+function getDiagnosis() {
+  alert("Proceeding to diagnosis...");
+}

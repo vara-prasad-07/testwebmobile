@@ -138,7 +138,7 @@
           </div>
         </div>
       </div>
-        <button class="take-picture-btn bg-primary">Get Started</button>
+        <button class="take-picture-btn-home btn bg-primary">Get Started</button>
       </div>
 
       <!-- Weather Report -->
@@ -175,18 +175,25 @@
         <!-- Image Import and Take Picture Options -->
         <div class="diagnosis-options">
           <div>
-            <button class="btn import-btn"><i class="fa-solid fa-file-import"></i></button>
+            <input type="file" id="importImageInput" accept="image/*" style="display: none;" />
+            <button class="btn import-btn" onclick="triggerImportImage()">
+              <i class="fa-solid fa-file-import"></i>
+            </button>
             <p>Import image</p>
           </div>
           <div>
-            <button class="btn take-picture-btn"><i class="fa-solid fa-camera"></i></button>
+            <button class="btn take-picture-btn" onclick="triggerTakePicture()">
+              <i class="fa-solid fa-camera"></i>
+            </button>
             <p>Take a Picture</p>
           </div>
-          
         </div>
-      
+        <div id="imagePreview" class="image-preview" style="display: none;">
+          <img id="previewImage" src="" alt="Selected Image" />
+          <button class="btn btn-primary mt-2" id="getDiagnosisBtn" style="display: none;" onclick="getDiagnosis()">Get Diagnosis</button>
+        </div>
         <!-- Diagnosis Details -->
-        <div class="diagnosis-details">
+        <div class="diagnosis-details d-none">
           <!-- Diagnosis Title -->
           <div class="diagnosis-header">
             <h4>Tobacco Caterpillar</h4>

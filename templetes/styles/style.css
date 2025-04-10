@@ -357,6 +357,12 @@
   .getstarteddiv{
     margin: 20px 0px 10px 0px;
   }
+
+.take-picture-btn-home{
+  color: white;
+}
+
+
   .import-btn{
     font-size: 46px;
     color: #fff;
@@ -630,4 +636,21 @@
     font-size: 0.9rem;
     color: #555;
     margin-bottom: 0.5rem;
+  }
+
+  .image-preview {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image-preview button {
+    margin-top: 1rem;
   }
