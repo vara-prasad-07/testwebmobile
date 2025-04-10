@@ -151,6 +151,7 @@
       </div>
       <div class="recent-diagnosis">
         <h3>Recent diagnosis:</h3>
+        
       </div>
     </section>
 
@@ -168,8 +169,122 @@
 
     <!-- YOU PAGE -->
     <section id="youPage" class="page">
-      <h2>Your Profile/Settings</h2>
-      <p>This is the “You” screen content...</p>
+      <div class="recent-diagnosis">
+        <h3>Get Quick Diagnosis</h3>
+      
+        <!-- Image Import and Take Picture Options -->
+        <div class="diagnosis-options">
+          <div>
+            <button class="btn import-btn"><i class="fa-solid fa-file-import"></i></button>
+            <p>Import image</p>
+          </div>
+          <div>
+            <button class="btn take-picture-btn"><i class="fa-solid fa-camera"></i></button>
+            <p>Take a Picture</p>
+          </div>
+          
+        </div>
+      
+        <!-- Diagnosis Details -->
+        <div class="diagnosis-details">
+          <!-- Diagnosis Title -->
+          <div class="diagnosis-header">
+            <h4>Tobacco Caterpillar</h4>
+            <p class="diagnosis-category">Insect</p>
+          </div>
+      
+          <!-- Image Carousel -->
+          <div class="diagnosis-carousel">
+            <img src="https://www.shutterstock.com/image-photo/corn-cobs-plantation-field-600nw-2477557971.jpg" alt="Diagnosis Image" class="carousel-image" />
+            <div class="carousel-indicators">
+              <span class="indicator active"></span>
+              <span class="indicator"></span>
+              <span class="indicator"></span>
+            </div>
+            <p class="photo-count">3 photos</p>
+          </div>
+      
+          <!-- Diagnosis Steps -->
+          <div class="diagnosis-steps">
+            <!-- Step 1 -->
+            <div class="step">
+              <h5>1. Confirm the diagnosis</h5>
+              <div class="step-content">
+                <div class="audio-section">
+                  <i class="fa-solid fa-headphones"></i>
+                  <p>Listen to the symptoms</p>
+                  <button class="btn btn-outline-primary play-btn">
+                    <i class="fa-solid fa-play"></i> Play
+                  </button>
+                </div>
+                <ul class="symptoms-list">
+                  <li>Contrary to popular belief, Lorem Ipsum is not random text.</li>
+                  <li>It has roots in a piece of classical Latin literature.</li>
+                  <li>Latin professor at Hampden.</li>
+                  <li>Lorem Ipsum passage, and going through.</li>
+                </ul>
+              </div>
+            </div>
+      
+            <!-- Step 2 -->
+            <div class="step">
+              <h5>2. Main reason for the problem</h5>
+              <ul class="reason-list">
+                <li>Lorem Ipsum passage, and going through.</li>
+                <li>Latin professor at Hampden.</li>
+                <li>Contrary to popular belief, Lorem Ipsum is not random text.</li>
+                <li>It has roots in a piece of classical Latin literature.</li>
+              </ul>
+            </div>
+      
+            <!-- Step 3 -->
+            <div class="step">
+              <h5>3. Recommended Products:</h5>
+              <ul class="product-list">
+                <li>Mancozeb fungicide</li>
+                <li>Chlorothalonil</li>
+              </ul>
+            
+              <!-- Treatment with Biological Agents -->
+              <div class="treatment-section">
+                <h6>Treatment with Biological Agents</h6>
+                <p>Spray on the foliage, other affected plant parts</p>
+                <div class="product-cards">
+                  <div class="product-card">
+                    <img src="https://www.indiapesticideslimited.com/assets/images/products/Herbicides/Agni%20Plus.jpg" alt="Vanporoz V-Bind" />
+                    <p>Vanporoz V-Bind (Bio)</p>
+                  </div>
+                  <div class="product-card">
+                    <img src="https://www.indiapesticideslimited.com/assets/images/products/Herbicides/Agni%20Plus.jpg" alt="Gaolie No Virus" />
+                    <p>Gaolie No Virus (Bio)</p>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Treatment with Chemical Agents -->
+              <div class="treatment-section">
+                <h6>Treatment with Chemical Agents</h6>
+                <p>Spray on the foliage, other affected plant parts</p>
+                <div class="product-cards">
+                  <div class="product-card">
+                    <img src="https://www.indiapesticideslimited.com/assets/images/products/Herbicides/Agni%20Plus.jpg" alt="Vanporoz V-Bind" />
+                    <p>Vanporoz V-Bind (Bio)</p>
+                  </div>
+                  <div class="product-card">
+                    <img src="https://www.indiapesticideslimited.com/assets/images/products/Herbicides/Agni%20Plus.jpg" alt="Gaolie No Virus" />
+                    <p>Gaolie No Virus (Bio)</p>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Disclaimer -->
+              <p class="disclaimer">
+                Disclaimer: The use of the suggested product(s)/information is at the discretion of the user.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -182,6 +297,13 @@
         <path d="M5 10v10h14V10" stroke="#fff" stroke-width="2" fill="none"/>
       </svg>
       <span>Home</span>
+    </button>
+    <button class="nav-btn" onclick="showPage('you')">
+      <!-- User icon -->
+      <svg viewBox="0 0 24 24" class="icon" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+        <path d="M12 2C7.03 2 2 6.48 2 12c0 5.52 5.03 10 10 10s10-4.48 10-10c0-5.52-5.03-10-10-10zm0 18c-4.41 0-8-3.59-8-8 0-3.87 2.91-7.19 6.76-7.86.5-.09.99.27 1.08.77.09.5-.27.99-.77 1.08C7.45 6.59 5 9.06 5 12c0 3.31 2.69 6 6 6s6-2.69 6-6c0-2.94-2.45-5.41-5.07-5.99-.5-.09-.86-.58-.77-1.08.09-.5.58-.86 1.08-.77C17.09 4.81 20 8.13 20 12c0 4.41-3.59 8-8 8z"/>
+      </svg>
+      <span>Predict Disease</span>
     </button>
     <button class="nav-btn" onclick="showPage('community')">
       <!-- Community icon (people) -->
@@ -200,14 +322,6 @@
         <path d="M16 10a4 4 0 01-8 0" stroke="#fff" stroke-width="2" fill="none"/>
       </svg>
       <span>Store</span>
-    </button>
-    <button class="nav-btn" onclick="showPage('you')">
-      <!-- User icon -->
-      <svg viewBox="0 0 24 24" class="icon">
-        <circle cx="12" cy="8" r="4" stroke="#fff" fill="none" stroke-width="2"/>
-        <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" fill="none" stroke-width="2"/>
-      </svg>
-      <span>You</span>
     </button>
   </footer>
 
