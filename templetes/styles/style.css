@@ -138,6 +138,39 @@
     font-size: 0.9rem;
     text-decoration: none;
   }
+  .pricepercentage{
+    background-color: #ff4d4d; /* Red background to indicate a discount */
+  color: white; /* White text for contrast */
+  font-size: 8px; /* Slightly smaller font size */
+  font-weight: bold; /* Bold text for emphasis */
+  padding: 5px 10px; /* Add padding for better spacing */
+  border-radius: 12px; /* Rounded corners for a pill-like shape */
+  display: inline-block; /* Ensure it doesn't stretch */
+  text-align: center; /* Center the text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  }
+  .priceinr {
+    font-size: 10px; /* Slightly larger font size for better readability */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #2E7D32; /* Green color to indicate a positive or affordable price */
+    margin-top: 5px; /* Add some spacing above */
+  }
+  
+  .priceinr span {
+    font-size: 10px; /* Slightly smaller font for the unit */
+    color: #555; /* Subtle gray color for the unit */
+    font-weight: normal; /* Normal weight for the unit */
+  }
+  .crop-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .crop-list div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+  }
   .crop-selection-preview .crop-list img {
     width: 50px;
     height: 50px;
