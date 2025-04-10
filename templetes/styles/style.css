@@ -209,31 +209,68 @@
     font-size: 1rem;
   }
   .trending-news .view-more {
-    font-size: 0.9rem;
-    color: #2e7d32;
-    text-decoration: none;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    overflow: hidden;
   }
   .news-carousel {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+  }
+  .news-content {
+    flex: 2;
+    padding-right: 10px;
+  }
+  .aligncontent{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
   .news-card {
     flex: 0 0 100%; /* Each card takes full width */
-  text-align: center;
-  padding: 10px;
-  box-sizing: border-box;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+  }
+  .news-content h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
   }
   .news-card a {
     flex: 1;
     text-decoration: none;
     color: #333;
   }
-  .news-card img {
-    width: 60px;
-    height: 60px;
-    margin-left: 0.5rem;
-    object-fit: cover;
+  .news-content .news-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
   }
+  .news-content .time-info {
+    font-size: 0.8rem;
+    color: #888;
+  }
+  .news-image {
+    flex: 1;
+    text-align: center;
+  }
+  .news-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 5px;
+  }
+  
   .carousel-btn {
     position: absolute;
     top: 50%;
@@ -255,13 +292,7 @@
     right: 10px;
   }
   
-  .news-card h4 {
-    font-size: 0.9rem;
-  }
-  .news-card .time-info {
-    font-size: 0.75rem;
-    color: #777;
-  }
+  
   
   /* Crop Doctor example */
   .crop-doctor {

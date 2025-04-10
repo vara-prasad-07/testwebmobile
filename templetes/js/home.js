@@ -47,11 +47,16 @@ function showPage(pageName) {
           const newsCard = document.createElement("div");
           newsCard.classList.add("news-card");
           newsCard.innerHTML = `
-            <a href="${news.link}" target="_blank">
-              <h4>${news.title}</h4>
-              <p class="time-info">${new Date(news.pubDate).toLocaleString()}</p>
-            </a>
-            <img src="${news.image_url || "https://via.placeholder.com/80"}" alt="News" />
+            <div class="news-content">
+              <a href="${news.link}" target="_blank">
+                <h4>${news.title}</h4>
+                <p class="news-description">${news.description || "No description available."}</p>
+                <p class="time-info">${new Date(news.pubDate).toLocaleString()}</p>
+              </a>
+            </div>
+            <div class="news-image">
+              <img src="${news.image_url || "https://via.placeholder.com/80"}" alt="News" />
+            </div>
           `;
           newsCarousel.appendChild(newsCard);
         });
@@ -66,32 +71,32 @@ function showPage(pageName) {
   }
 
   function initializeCarousel() {
-    const carousel = document.querySelector(".news-carousel");
-    const prevBtn = document.querySelector(".prev-btn");
-    const nextBtn = document.querySelector(".next-btn");
-
+    const carousel = document.querySelector('.news-carousel');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
     let currentIndex = 0;
-
+    
     function updateCarousel() {
-      const cardWidth = document.querySelector(".news-card").offsetWidth;
+      const cardWidth = document.querySelector('.news-card').offsetWidth;
       carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
     }
-
-    prevBtn.addEventListener("click", () => {
-      currentIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+    
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : 0;
       updateCarousel();
     });
-
-    nextBtn.addEventListener("click", () => {
-      const totalCards = document.querySelectorAll(".news-card").length;
-      currentIndex = currentIndex < totalCards - 1 ? currentIndex + 1 : totalCards - 1;
+    
+    nextBtn.addEventListener('click', () => {
+      const totalCards = document.querySelectorAll('.news-card').length;
+      currentIndex = (currentIndex < totalCards - 1) ? currentIndex + 1 : totalCards - 1;
       updateCarousel();
     });
-
+    
     // Optional: Auto-slide every 5 seconds
     setInterval(() => {
-      const totalCards = document.querySelectorAll(".news-card").length;
-      currentIndex = currentIndex < totalCards - 1 ? currentIndex + 1 : 0;
+      const totalCards = document.querySelectorAll('.news-card').length;
+      currentIndex = (currentIndex < totalCards - 1) ? currentIndex + 1 : 0;
       updateCarousel();
     }, 5000);
   }
