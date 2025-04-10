@@ -141,9 +141,9 @@
   .pricepercentage{
     background-color: #ff4d4d; /* Red background to indicate a discount */
   color: white; /* White text for contrast */
-  font-size: 8px; /* Slightly smaller font size */
+  font-size: 6px; /* Slightly smaller font size */
   font-weight: bold; /* Bold text for emphasis */
-  padding: 5px 10px; /* Add padding for better spacing */
+  padding: 3px 4px; /* Add padding for better spacing */
   border-radius: 12px; /* Rounded corners for a pill-like shape */
   display: inline-block; /* Ensure it doesn't stretch */
   text-align: center; /* Center the text */
@@ -166,10 +166,16 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  .crop-list div {
+  .crop-item{
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
+  }
+  .crop-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
   }
   .crop-selection-preview .crop-list img {
     width: 50px;
@@ -177,6 +183,8 @@
     margin-right: 0.5rem;
     border-radius: 50%;
     object-fit: cover;
+    display: block;
+   
   }
   
   /* Trending News example */
@@ -184,8 +192,13 @@
     background: #fff;
     border-radius: 8px;
     padding: 1rem;
-    margin-bottom: 1rem;
+    
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: auto;
+  margin: 0 auto;
   }
   .trending-news .header-row {
     display: flex;
@@ -200,10 +213,15 @@
     color: #2e7d32;
     text-decoration: none;
   }
-  .news-card {
+  .news-carousel {
     display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
+    transition: transform 0.5s ease-in-out;
+  }
+  .news-card {
+    flex: 0 0 100%; /* Each card takes full width */
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
   }
   .news-card a {
     flex: 1;
@@ -214,7 +232,29 @@
     width: 60px;
     height: 60px;
     margin-left: 0.5rem;
+    object-fit: cover;
   }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+   
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    color: black;
+    font-size: 20px;
+  }
+  .prev-btn {
+    left: 10px;
+  }
+  
+  .next-btn {
+    right: 10px;
+  }
+  
   .news-card h4 {
     font-size: 0.9rem;
   }
