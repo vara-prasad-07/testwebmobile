@@ -103,3 +103,65 @@ function showPage(pageName) {
 
   // Fetch news on page load
   fetchNews();
+
+
+  function animateCount(elementId, start, end, duration) {
+    const element = document.getElementById(elementId);
+    const range = end - start;
+    const increment = range / (duration / 10); // Calculate increment for each step
+    let current = start;
+  
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= end) {
+        current = end; // Ensure the final value is exactly the end value
+        clearInterval(timer); // Stop the animation
+      }
+      element.innerHTML = Math.floor(current)+"+"; // Update the element's innerHTML
+    }, 10); // Update every 10ms
+  }
+  
+  // Call the function to animate the count
+  animateCount("famerscount", 0, 100, 5000); // Animate from 0 to 50 over 2 seconds
+  animateCount("orgscount", 0, 50, 5000); // Animate from 0 to 100 over 2 seconds
+
+
+
+  async function fetchWeather() {
+    const apiUrl = "https://api.weatherapi.com/v1/current.json?key=e7e964a02a52400b84b132701251004&q=hyderabad";
+  
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+  
+      if (data && data.location && data.current) {
+        // Extract weather data
+        const locationName = data.location.name;
+        const region = data.location.region;
+        const country = data.location.country;
+        const temperature = data.current.temp_c;
+        const condition = data.current.condition.text;
+        const iconUrl = `https:${data.current.condition.icon}`;
+        const lastUpdated = data.current.last_updated;
+  
+        // Update the weather report block
+        const weatherReport = document.querySelector(".weather-report");
+        weatherReport.innerHTML = `
+          <h3>Weather Report</h3>
+          <p>${locationName}, ${region}, ${country}</p>
+          <p>${temperature}°C - ${condition}</p>
+          <p>Last Updated: ${lastUpdated}</p>
+          <div class="weather-icon">
+            <img src="${iconUrl}" alt="Weather Icon" />
+          </div>
+        `;
+      } else {
+        console.error("Invalid weather data received.");
+      }
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  }
+  
+  // Call the function to fetch and display weather data
+  fetchWeather();

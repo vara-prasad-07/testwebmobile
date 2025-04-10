@@ -139,7 +139,7 @@
     text-decoration: none;
   }
   .pricepercentage{
-    background-color: #ff4d4d; /* Red background to indicate a discount */
+    background-color:  red; /* Red background to indicate a discount */
   color: white; /* White text for contrast */
   font-size: 6px; /* Slightly smaller font size */
   font-weight: bold; /* Bold text for emphasis */
@@ -153,7 +153,8 @@
     font-size: 10px; /* Slightly larger font size for better readability */
     font-weight: bold; /* Bold text for emphasis */
     color: #2E7D32; /* Green color to indicate a positive or affordable price */
-    margin-top: 5px; /* Add some spacing above */
+    margin-top: 2px; /* Add some spacing above */
+    margin-left: 5px;
   }
   
   .priceinr span {
@@ -234,7 +235,8 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: start;
+    align-items: center;
 
   }
   .news-content h4 {
@@ -268,7 +270,7 @@
     border-radius: 8px;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 5px;
+    margin-bottom: 20px;
   }
   
   .carousel-btn {
@@ -301,6 +303,59 @@
     padding: 1rem;
     margin-bottom: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+  }
+  .crop-doctor-options{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 20px 0px 10px 20px;
+    
+  }
+  .use-commands{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0px 10px 0px;
+  }
+  .use-commands p{
+    font-size: 16px;
+    font-weight: 600;
+    color: #2E7D32;
+    font-style: italic;
+  }
+  .use-commands i{
+    font-size: 24px;
+  }
+  .crop-doctor-info{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    
+  }
+  .crop-doctor-info p{
+    color: #555;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .farmerscountdiv p{
+    color: #555;
+    font-size: 1.1rem;
+    
+
+  }
+  .farmerscountdiv span{
+    color: #2E7D32;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: italic;
+    margin-left: 10px;
+   
+  }
+  .getstarteddiv{
+    margin: 20px 0px 10px 0px;
   }
   .take-picture-btn {
     background-color: #2e7d32;
@@ -309,6 +364,7 @@
     border-radius: 4px;
     padding: 0.5rem 1rem;
     cursor: pointer;
+    margin: 20px 0px 10px 0px;
   }
   .take-picture-btn:hover {
     background-color: #256225;
@@ -316,6 +372,13 @@
   
   /* Weather report example */
   .weather-report {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 4rem; /* extra space for demo */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .recent-diagnosis{
     background: #fff;
     border-radius: 8px;
     padding: 1rem;
