@@ -305,14 +305,14 @@
 <body>
     <div class="details-container d-block">
         <h2>Additional Info</h2>
-        <p class="subtitle">Please fill in these optional details</p>
+        <p class="subtitle">Please fill your personal details</p>
     
         <!-- Form starts here -->
         <form>
           <!-- Username -->
           <div class="form-group">
             <label for="username">Username</label>
-            <input id="username" type="text" placeholder="Pick a unique username..." />
+            <input id="username" type="text" placeholder="Pick a unique username..." required />
           </div>
     
           <!-- Middle Name -->
@@ -339,10 +339,10 @@
           <div class="form-group">
             <label>Address</label>
             <div class="address-grid">
-              <input type="text" id="streetaddress" placeholder="Street Address" />
-              <input type="text" id="city" placeholder="City" />
-              <input type="number" id="zipcode" placeholder="Zip Code" />
-              <input type="text" id="state" placeholder="State/Province" />
+              <input type="text" id="streetaddress" placeholder="Street Address" required/>
+              <input type="text" id="city" placeholder="City" required />
+              <input type="number" id="zipcode" placeholder="Zip Code" required />
+              <input type="text" id="state" placeholder="State/Province" required/>
             </div>
           </div>
     
@@ -451,7 +451,7 @@
         let referralcode=document.getElementById("referralcode").value;
         
         userinfo={
-          uid:uid,
+          uid:null,
           username:firstname,
   
           gender:gender,
@@ -462,10 +462,38 @@
         }
         console.log(userinfo)
         usersignupdetails.push(userinfo);
-        document.querySelector(".details-container").classList.add("d-none");
-        document.querySelector(".crop-selection-container").classList.remove("d-none");
+         // Create and show loading spinner
+  const loadingSpinner = document.createElement("div");
+  loadingSpinner.id = "loadingSpinner";
+  loadingSpinner.style.position = "fixed";
+  loadingSpinner.style.top = "50%";
+  loadingSpinner.style.left = "50%";
+  loadingSpinner.style.transform = "translate(-50%, -50%)";
+  loadingSpinner.style.zIndex = "1000";
+  loadingSpinner.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+  loadingSpinner.style.width = "100vw";
+  loadingSpinner.style.height = "100vh";
+  loadingSpinner.style.display = "flex";
+  loadingSpinner.style.justifyContent = "center";
+  loadingSpinner.style.alignItems = "center";
+  loadingSpinner.innerHTML = `
+    <div style="text-align: center;">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p style="margin-top: 10px; color: #2E7D32;">Processing...</p>
+    </div>
+  `;
+  document.body.appendChild(loadingSpinner);
+  firebase.firestore().collection("users").doc(uid).set({userdetail:userinfo},{ merge: true });
+  // Simulate a delay of 2 seconds before switching containers
+  setTimeout(() => {
+    document.body.removeChild(loadingSpinner); // Remove the loading spinner
+    document.querySelector(".details-container").classList.add("d-none");
+    document.querySelector(".crop-selection-container").classList.remove("d-none");
+  }, 2000); // 2-second delay
 
-        firebase.firestore().collection("users").doc(uid).set({userdetail:userinfo},{ merge: true });
+        
         
     });
 
