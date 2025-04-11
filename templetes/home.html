@@ -229,6 +229,48 @@
           <div id="predictionResult"></div>
         </div>
       </div>
+      <!-- Add this right after the predictionResult div -->
+<div id="recommendedProducts" class="recommended-products" style="display: none;">
+  <h4>Recommended Products</h4>
+  <div class="products-grid">
+    <div class="product-card">
+      <img src="https://awpl-kycdocs.s3.ap-south-1.amazonaws.com/upload1/product/_T1301.JPG" alt="Neem Oil">
+      <h5>Organic Neem Oil</h5>
+      <p class="price">₹299</p>
+      <div class="product-actions">
+        <button class="btn btn-primary btn-sm">Buy Now</button>
+        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="https://krsmultipro.com/Managepanel/images/NewProducts/06572024055734Prod_664_0.png" alt="Fungicide">
+      <h5>Bio Fungicide</h5>
+      <p class="price">₹199</p>
+      <div class="product-actions">
+        <button class="btn btn-primary btn-sm">Buy Now</button>
+        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="https://tiimg.tistatic.com/fp/1/008/275/a-grade-indian-origin-common-cultivation-99-9-pure-fresh-agriculture-products-627.jpg" alt="Plant Growth">
+      <h5>Plant Growth Booster</h5>
+      <p class="price">₹399</p>
+      <div class="product-actions">
+        <button class="btn btn-primary btn-sm">Buy Now</button>
+        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="https://tiimg.tistatic.com/fp/1/008/275/a-grade-indian-origin-common-cultivation-99-9-pure-fresh-agriculture-products-627.jpg" alt="Pesticide">
+      <h5>Organic Pesticide</h5>
+      <p class="price">₹249</p>
+      <div class="product-actions">
+        <button class="btn btn-primary btn-sm">Buy Now</button>
+        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
     </section>
   </main>
 
@@ -313,15 +355,20 @@
         const [diseaseLabel, rawExplanation] = result.data;
         console.log(rawExplanation)
 // Replace newlines
-          let explanation = rawExplanation.replace(/(?:\r\n|\r|\n)/g, "<br>");
+      let explanation = rawExplanation  // from the LLM
 
-          // Replace '- ' with '• ' if you want bullet-like formatting:
-          explanation = explanation.replace(/<br>- /g, "<br>• ");
+      // 1) Replace Markdown bold (double-asterisks) with <strong> tags
+      explanation = explanation.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
-          predictionResult.innerHTML = `
-            <strong>Prediction:</strong> ${diseaseLabel}<br/>
-            <strong>Explanation:</strong><br/>${explanation}
-          `;
+      // 2) Replace newlines with <br> for better readability
+      explanation = explanation.replace(/(?:\r\n|\r|\n)/g, "<br>");
+
+      // Now you can safely insert `explanation` as HTML
+      predictionResult.innerHTML = `
+        <strong>Prediction:</strong> ${diseaseLabel}<br/>
+        <strong>Explanation:</strong><br/>${explanation}
+      `;
+      document.getElementById("recommendedProducts").style.display = "block";
       } catch (error) {
         console.error("Prediction error:", error);
         predictionResult.textContent = "Prediction failed.";

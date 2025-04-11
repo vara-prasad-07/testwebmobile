@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .intro-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        #introVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <video id="introVideo" autoplay muted>
+            <source src="https://previewed.app/static/12min-8dff1663b92a38d0c010d1f330a8de5e.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('introVideo');
+            
+            // Check for existing user
+            const checkAuthAndRedirect = () => {
+                const authLogs = localStorage.getItem('authLogs');
+                
+                if (authLogs) {
+                    try {
+                        const uid = JSON.parse(authLogs)[0]['uid'];
+                        if (uid) {
+                            window.location.href = 'templetes/home.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    } catch (error) {
+                        console.error('Error parsing authLogs:', error);
+                        window.location.href = 'index.html';
+                    }
+                } else {
+                    window.location.href = 'index.html';
+                }
+            };
+
+            // When video ends or if video fails to load
+            video.addEventListener('ended', checkAuthAndRedirect);
+            video.addEventListener('error', checkAuthAndRedirect);
+
+            // Fallback: If video doesn't play within 5 seconds
+            setTimeout(checkAuthAndRedirect, 5000);
+        });
+    </script>
+</body>
+</html>
