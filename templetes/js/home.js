@@ -514,3 +514,21 @@ document.getElementById("mediaInput").addEventListener("change", (event) => {
     mediaPreviewText.textContent = "No media selected";
   }
 });
+
+
+
+document.querySelectorAll('.product-actions button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    const product = this.closest('.product-card');
+    const productName = product.querySelector('h5').textContent;
+    const productPrice = product.querySelector('.price').textContent;
+    
+    if (this.textContent === 'Buy Now') {
+      // Implement buy now logic
+      alert(`Proceeding to checkout for ${productName} at ${productPrice}`);
+    } else {
+      // Implement add to cart logic
+      alert(`Added ${productName} to cart`);
+    }
+  });
+});
