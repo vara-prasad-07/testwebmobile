@@ -192,79 +192,166 @@ function showPage(pageName) {
   function triggerTakePicture() {
     const videoElement = document.createElement("video");
     const captureButton = document.createElement("button");
+    const switchCameraButton = document.createElement("button");
     const previewContainer = document.getElementById("imagePreview");
   
     videoElement.autoplay = true;
+    videoElement.playsInline = true; // Important for iOS
     videoElement.style.width = "100%";
     videoElement.style.borderRadius = "8px";
+    
     captureButton.textContent = "Capture";
     captureButton.className = "btn btn-success mt-2";
+    
+    switchCameraButton.textContent = "Switch Camera";
+    switchCameraButton.className = "btn btn-secondary mt-2 ml-2";
   
     previewContainer.innerHTML = "";
     previewContainer.appendChild(videoElement);
     previewContainer.appendChild(captureButton);
+    previewContainer.appendChild(switchCameraButton);
     previewContainer.style.display = "block";
   
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        videoElement.srcObject = stream;
+    let currentFacingMode = "environment";
+    let stream = null;
   
-        captureButton.addEventListener("click", () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = videoElement.videoWidth;
-          canvas.height = videoElement.videoHeight;
-          const context = canvas.getContext("2d");
-          context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-  
-          // Stop camera
-          stream.getTracks().forEach((track) => track.stop());
-  
-          // Convert to base64
-          const imageData = canvas.toDataURL("image/png");
-          // Convert base64 to Blob
-          const blob = dataURLtoBlob(imageData);
-  
-          // Display the captured image
-          displayImage(imageData, blob);
+    function startCamera() {
+      // Start with less restrictive constraints
+      const constraints = {
+        video: {
+          facingMode: currentFacingMode
+        }
+      };
+    
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((mediaStream) => {
+          stream = mediaStream;
+          videoElement.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error("Camera error:", error);
+          // Fallback to any available camera
+          navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then((mediaStream) => {
+              stream = mediaStream;
+              videoElement.srcObject = stream;
+            })
+            .catch((err) => {
+              console.error("Fallback camera error:", err);
+              alert("Unable to access camera. Please check your device settings.");
+            });
         });
-      })
-      .catch((error) => {
-        console.error("Error accessing camera:", error);
-        alert("Unable to access the camera. Please check your device settings.");
-      });
+    }
+  
+    switchCameraButton.addEventListener("click", () => {
+      currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
+      startCamera();
+    });
+  
+    captureButton.addEventListener("click", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+  
+      // Stop the camera
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+  
+      // Convert canvas to base64 DataURL
+      const imageData = canvas.toDataURL("image/png");
+      
+      // Convert base64 to blob
+      const blob = dataURLtoBlob(imageData);
+      
+      // Clear the camera UI
+      previewContainer.innerHTML = "";
+      
+      // Display the captured image and show the predict button
+      displayImage(imageData, blob);
+    });
+  
+    // Start with back camera
+    startCamera();
   }
   
+  // Helper function to convert DataURL to Blob
+  function dataURLtoBlob(dataURL) {
+    const parts = dataURL.split(",");
+    const byteString = atob(parts[1]);
+    const mimeString = parts[0].split(":")[1].split(";")[0];
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+  
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+  
+    return new Blob([arrayBuffer], { type: mimeString });
+  } 
   function displayImage(imageSrc, file) {
-    const previewImage = document.getElementById("previewImage");
-    const getDiagnosisBtn = document.getElementById("getDiagnosisBtn");
-    const previewContainer = document.getElementById("imagePreview");
+    try {
+      let previewImage = document.getElementById("previewImage");
+      let getDiagnosisBtn = document.getElementById("getDiagnosisBtn");
+      let previewContainer = document.getElementById("imagePreview");
   
-    // Show image preview
-    previewImage.src = imageSrc;
-    previewImage.style.width = "100%";
-    previewImage.style.borderRadius = "8px";
-    previewContainer.style.display = "block";
-    getDiagnosisBtn.style.display = "inline-block";
+      // Create container if it doesn't exist
+      if (!previewContainer) {
+        previewContainer = document.createElement("div");
+        previewContainer.id = "imagePreview";
+        previewContainer.className = "image-preview";
+        const recentDiagnosis = document.querySelector(".recent-diagnosis");
+        if (!recentDiagnosis) {
+          console.error("Recent diagnosis container not found");
+          return;
+        }
+        recentDiagnosis.appendChild(previewContainer);
+      }
   
-    // Store the file globally instead of dataset
-    window.selectedFile = file;
+      // Create image if it doesn't exist
+      if (!previewImage) {
+        previewImage = document.createElement("img");
+        previewImage.id = "previewImage";
+        previewImage.alt = "Selected Image";
+        previewContainer.appendChild(previewImage);
+      }
   
-    // Debug check
-    console.log("[displayImage] Setting window.selectedFile:", file);
+      // Create button if it doesn't exist
+      if (!getDiagnosisBtn) {
+        getDiagnosisBtn = document.createElement("button");
+        getDiagnosisBtn.id = "getDiagnosisBtn";
+        getDiagnosisBtn.className = "btn btn-primary mt-2";
+        getDiagnosisBtn.textContent = "Get Diagnosis";
+        getDiagnosisBtn.onclick = getDiagnosis;
+        previewContainer.appendChild(getDiagnosisBtn);
+      }
+  
+      // Update the image and show elements
+      previewImage.src = imageSrc;
+      previewImage.style.width = "100%";
+      previewImage.style.borderRadius = "8px";
+      previewContainer.style.display = "block";
+      getDiagnosisBtn.style.display = "inline-block";
+  
+      // Store the file globally
+      window.selectedFile = file;
+  
+    } catch (error) {
+      console.error("Error in displayImage:", error);
+      alert("There was an error displaying the image. Please try again.");
+    }
   }
   
   // Helper function to convert base64 data URL to Blob
-  function dataURLtoBlob(dataURL) {
-    const byteString = atob(dataURL.split(",")[1]);
-    const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
+  
 // Sample posts data
 const posts = [
   {
