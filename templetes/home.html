@@ -192,6 +192,10 @@
           <img id="previewImage" src="" alt="Selected Image" />
           <button class="btn btn-primary mt-2" id="getDiagnosisBtn" style="display: none;" onclick="getDiagnosis()">Get Diagnosis</button>
         </div>
+        <div id="result" style="margin-top: 20px; font-family: Arial, sans-serif; display: none;">
+          <div id="loading" style="display: none;">🔄 Loading...</div>
+          <div id="predictionResult"></div>
+        </div>
         <!-- Diagnosis Details -->
         <div class="diagnosis-details d-none">
           <!-- Diagnosis Title -->
@@ -333,6 +337,69 @@
   </footer>
 
   <script src="js/home.js"></script>
+  <script type="module">
+    import { Client } from "https://esm.sh/@gradio/client";
+  
+    let gradioClient;
+  
+    // Initialize Gradio client on page load
+    window.onload = async () => {
+      try {
+        gradioClient = await Client.connect("vishwak1/test");
+        console.log("Gradio client connected");
+      } catch (err) {
+        console.error("Failed to connect Gradio client:", err);
+      }
+    };
+  
+    // Called when user clicks "Get Diagnosis"
+    window.getDiagnosis = async function () {
+      const file = window.selectedFile; // Use the global variable
+      const loadingDiv = document.getElementById("loading");
+      const resultContainer = document.getElementById("result");
+      const predictionResult = document.getElementById("predictionResult");
+  
+      if (!file) {
+        alert("No image found. Please upload or capture an image first.");
+        return;
+      }
+      if (!gradioClient) {
+        alert("Gradio client not ready. Please refresh or try again.");
+        return;
+      }
+  
+      loadingDiv.style.display = "block";
+      resultContainer.style.display = "block";
+      predictionResult.textContent = "";
+  
+      try {
+        // pass file in an array
+        const result = await gradioClient.predict("/predict", [file]);
+  
+        // If your app returns two outputs [diseaseLabel, explanation]
+        const [diseaseLabel, rawExplanation] = result.data;
+
+// Replace newlines
+          let explanation = rawExplanation.replace(/(?:\r\n|\r|\n)/g, "<br>");
+
+          // Replace '- ' with '• ' if you want bullet-like formatting:
+          explanation = explanation.replace(/<br>- /g, "<br>• ");
+
+          predictionResult.innerHTML = `
+            <strong>Prediction:</strong> ${diseaseLabel}<br/>
+            <strong>Explanation:</strong><br/>${explanation}
+          `;
+      } catch (error) {
+        console.error("Prediction error:", error);
+        predictionResult.textContent = "Prediction failed.";
+      } finally {
+        loadingDiv.style.display = "none";
+      }
+    };
+  </script>
+  
+  
+  
   <script>
     const firebaseConfig = {
         apiKey: "AIzaSyBnhqJ-zUQhXt1HbqoLz0U5s7kO_MqeILM",
