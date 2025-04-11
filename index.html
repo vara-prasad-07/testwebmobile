@@ -13,16 +13,47 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
         }
+        
         .intro-container {
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
+        
         #introVideo {
-            width: 100%;
+            position: absolute;
+            width: auto;
             height: 100%;
-            object-fit: cover;
+            /* For wider screens, ensure video fills width instead */
+            @media (min-aspect-ratio: 9/16) {
+                width: 100%;
+                height: auto;
+            }
+            /* Maintain aspect ratio while covering container */
+            object-fit: contain;
+            max-width: 100%;
+            margin: auto;
+        }
+    
+        /* Add specific handling for different device orientations */
+        @media screen and (orientation: landscape) {
+            #introVideo {
+                width: auto;
+                height: 100vh;
+            }
+        }
+    
+        @media screen and (orientation: portrait) {
+            #introVideo {
+                width: 100vw;
+                height: auto;
+            }
         }
     </style>
 </head>
