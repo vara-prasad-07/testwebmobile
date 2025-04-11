@@ -13,23 +13,54 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
         }
+        
         .intro-container {
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
+        
         #introVideo {
-            width: 100%;
+            position: absolute;
+            width: auto;
             height: 100%;
-            object-fit: cover;
+            /* For wider screens, ensure video fills width instead */
+            @media (min-aspect-ratio: 9/16) {
+                width: 100%;
+                height: auto;
+            }
+            /* Maintain aspect ratio while covering container */
+            object-fit: contain;
+            max-width: 100%;
+            margin: auto;
+        }
+    
+        /* Add specific handling for different device orientations */
+        @media screen and (orientation: landscape) {
+            #introVideo {
+                width: auto;
+                height: 100vh;
+            }
+        }
+    
+        @media screen and (orientation: portrait) {
+            #introVideo {
+                width: 100vw;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
     <div class="intro-container">
         <video id="introVideo" autoplay muted>
-            <source src="https://previewed.app/static/12min-8dff1663b92a38d0c010d1f330a8de5e.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/diryolcmm/video/upload/v1744375640/Untitled_design_ned5c2.mp4" type="video/mp4">
         </video>
     </div>
 
