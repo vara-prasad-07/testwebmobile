@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Onboarding Screens</title>
+  <style>
+    /* Reset & basic styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #effffb;
+      min-height: 100vh;
+      
+    }
+
+    /* Container to hold all slides */
+    .onboarding-container {
+      width: 100%; /* typical mobile width */
+      height: 100vh; /* approximate phone height */
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      
+      position: relative;
+      padding:10px;
+    }
+
+    /* Each "screen" or slide */
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+      height: 100%;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+      position: relative;
+    }
+
+    /* Fade in animation for transitions */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    /* "Skip" button on top-right */
+    .skip-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.2rem;
+      color: #006400;
+      background: none;
+      border: none;
+      cursor: pointer;
+      
+      margin:40px 40px 0px 0px;
+      
+    }
+
+    /* Illustration placeholder */
+    .slide img {
+      width: 80%; /* adjust as needed */
+      height: 720px;
+      margin-top: 140px;
+      border-radius:20px;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 3.6rem;
+     margin-top:5px;
+      color: #2d2d2d;
+    }
+
+    .subtitle {
+      font-size: 3.2rem;
+      color: #606060;
+      line-height: 1.4;
+      padding:5px;
+    }
+
+    /* Dots indicator for slides */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+       margin-bottom: 50px;
+   
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: #ccc;
+    }
+    .dot.active {
+      background-color: #006400;
+    }
+
+    /* Sign Up & Login Buttons (on last slide) */
+    .auth-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 50px;
+      width: 50%;
+      padding: 0 40px;
+    }
+    .btn {
+      padding: 16px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 2.4rem;
+      cursor: pointer;
+    }
+    .signup {
+      background-color: #006400;
+      color: #fff;
+    }
+    .login {
+      background-color: transparent;
+      color: #006400;
+      border: 2px solid #006400;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="onboarding-container">
+  <!-- Slide 1: Health Check -->
+  <div class="slide active" id="slide-1">
+    <button class="skip-btn" onclick="goToLastSlide()">Skip</button>
+    <img src="https://res.cloudinary.com/diryolcmm/image/upload/v1744117247/DALL_E_2025-04-08_18.21.48_-_A_high-resolution_flat_vector-style_illustration_of_a_man_scanning_a_giant_QR_code_on_a_smartphone._The_man_is_holding_a_phone_and_wearing_a_green_hoo_kp8hcu.webp" alt="Health Check" />
+    <div class="title">Health Check</div>
+    <div class="subtitle">
+      Take a picture of your crop or upload an image to detect diseases and receive treatment advice.
+    </div>
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Community -->
+  <div class="slide" id="slide-2">
+    <img src="https://res.cloudinary.com/diryolcmm/image/upload/v1744117246/DALL_E_2025-04-08_18.23.48_-_A_clean_flat_vector-style_illustration_with_a_pure_white_background._The_scene_shows_a_woman_holding_a_phone_standing_beside_large_digital_devices_i_e0dtgi.webp" alt="Community" />
+    <div class="title">Community</div>
+    <div class="subtitle">
+      Ask a question about your crop to receive help from the community.
+    </div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Cultivation Tips -->
+  <div class="slide" id="slide-3">
+    <img src="https://res.cloudinary.com/diryolcmm/image/upload/v1744117246/DALL_E_2025-04-08_18.23.54_-_A_clean_flat_vector-style_illustration_with_a_white_background._The_scene_shows_a_person_standing_on_a_ladder_watering_a_human_brain_inside_a_large_vyp8lb.webp" alt="Cultivation Tips" />
+    <div class="title">Cultivation Tips</div>
+    <div class="subtitle">
+      Receive farming advice about how to improve your yield.
+    </div>
+    <!-- Auth Buttons -->
+    <div class="auth-buttons">
+      <button class="btn signup" id="signup">Sign Up / Login</button>
+    </div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simple JS for going to next/last slide
+  let currentSlideIndex = 1;
+  const totalSlides = 3;
+  let signupbtn=document.getElementById("signup");
+  signupbtn.addEventListener("click", function() {
+    window.location.href = "templetes/signup.html"; // Redirect to signup page
+  });
+
+  const showSlide = (index) => {
+    // Hide all slides
+    for (let i = 1; i <= totalSlides; i++) {
+      document.getElementById(`slide-${i}`).classList.remove("active");
+    }
+    // Show the selected slide
+    document.getElementById(`slide-${index}`).classList.add("active");
+  };
+
+  // For demonstration, clicking "Skip" goes directly to slide 3
+  function goToLastSlide() {
+    currentSlideIndex = 3;
+    showSlide(currentSlideIndex);
+  }
+   
+  // If you want to automatically go to next slide on click:
+  // (Example: tap the image to move forward - just for demonstration)
+  document.getElementById("slide-1").addEventListener("click", () => {
+    currentSlideIndex = 2;
+    showSlide(currentSlideIndex);
+  });
+  document.getElementById("slide-2").addEventListener("click", () => {
+    currentSlideIndex = 3;
+    showSlide(currentSlideIndex);
+  });
+</script>
+
+</body>
+</html>
