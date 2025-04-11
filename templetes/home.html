@@ -157,9 +157,42 @@
 
     <!-- COMMUNITY PAGE -->
     <section id="communityPage" class="page">
-      <h2>Community</h2>
-      <p>This is the Community screen content...</p>
+      <header class="community-header">
+        <h2>Community</h2>
+        <input type="text" id="searchInput" placeholder="What's in your mind" />
+        <div class="filter-section">
+          <span>Filter by</span>
+          
+          <div id="filterTags" class="filter-tags">
+            <!-- Filter tags will be dynamically added here -->
+          </div>
+        </div>
+      </header>
+    
+      <div id="postsContainer" class="posts-container">
+        <!-- Posts will be dynamically rendered here -->
+      </div>
+    
+      <button id="addPostButton" class="add-post-btn">+ Ask Community</button>
+      <!-- Pop-Up Container -->
+      <!-- Pop-Up Container -->
+      <div id="newPostPopup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+          <h3>Create a New Post</h3>
+          <textarea id="postTextInput" placeholder="What do you want to talk about?"></textarea>
+          <div class="add-media">
+            <label for="mediaInput" class="btn btn-secondary">Add Media</label>
+            <input type="file" id="mediaInput" accept="image/*,video/*" style="display: none;" />
+            <p id="mediaPreviewText" style="margin-top: 10px; font-size: 14px; color: gray;">No media selected</p>
+          </div>
+          <div class="popup-actions">
+            <button id="cancelPostButton" class="btn btn-secondary">Cancel</button>
+            <button id="submitPostButton" class="btn btn-primary">Post</button>
+          </div>
+        </div>
+      </div>
     </section>
+
 
     <!-- STORE PAGE -->
     <section id="storePage" class="page">
@@ -378,7 +411,7 @@
   
         // If your app returns two outputs [diseaseLabel, explanation]
         const [diseaseLabel, rawExplanation] = result.data;
-
+        console.log(rawExplanation)
 // Replace newlines
           let explanation = rawExplanation.replace(/(?:\r\n|\r|\n)/g, "<br>");
 
