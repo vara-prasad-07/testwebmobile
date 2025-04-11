@@ -265,4 +265,165 @@ function showPage(pageName) {
     }
     return new Blob([ab], { type: mimeString });
   }
-  
+// Sample posts data
+const posts = [
+  {
+    authorName: "Aaki Babu",
+    authorImage: "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png",
+    postImage: "https://dclouds.in/wp-content/uploads/2022/05/instagram-post.png",
+    postText: "What could be the reason? Holes are seen in many plants.",
+    likes: 10,
+    dislikes: 2,
+    comments: ["Looks like pest damage.", "Try using neem oil spray."],
+    crop: "Cucumber",
+  },
+  {
+    authorName: "John Doe",
+    authorImage: "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png",
+    postImage: "https://dclouds.in/wp-content/uploads/2022/05/instagram-post.png",
+    postText: "Yellow spots on leaves. Any suggestions?",
+    likes: 15,
+    dislikes: 1,
+    comments: ["Could be a fungal infection.", "Use a fungicide."],
+    crop: "Apple",
+  },
+];
+
+// Render posts dynamically
+function renderPosts(filterCrop = null) {
+  const postsContainer = document.getElementById("postsContainer");
+  postsContainer.innerHTML = ""; // Clear existing posts
+
+  const filteredPosts = filterCrop
+    ? posts.filter((post) => post.crop === filterCrop)
+    : posts;
+
+  filteredPosts.forEach((post) => {
+    const postElement = document.createElement("div");
+    postElement.classList.add("post");
+
+    // Check if the post has media and render it accordingly
+    let mediaContent = "";
+    if (post.postMedia) {
+      if (post.postMedia.endsWith(".mp4") || post.postMedia.endsWith(".webm")) {
+        mediaContent = `<video src="${post.postMedia}" controls autoplay muted class="post-media"></video>`;
+      } else {
+        mediaContent = `<img src="${post.postMedia}" alt="Post Media" class="post-media" />`;
+      }
+    }
+
+    postElement.innerHTML = `
+      <div class="post-header">
+        <img src="${post.authorImage}" alt="${post.authorName}" class="author-image" />
+        <span class="author-name">${post.authorName}</span>
+      </div>
+      ${mediaContent}
+      <p class="post-text">${post.postText}</p>
+      <div class="post-actions">
+        <button class="like-btn">👍 ${post.likes}</button>
+        <button class="dislike-btn">👎 ${post.dislikes}</button>
+        <button class="comment-btn">💬 ${post.comments.length} Comments</button>
+        <button class="share-btn">🔗 Share</button>
+      </div>
+    `;
+
+    postsContainer.appendChild(postElement);
+  });
+}
+
+// Add a new post
+function addPost(authorName, authorImage, postMedia, postText, crop) {
+  posts.unshift({
+    authorName,
+    authorImage,
+    postMedia, // Add media to the post object
+    postText,
+    likes: 0,
+    dislikes: 0,
+    comments: [],
+    crop,
+  });
+  renderPosts(); // Re-render posts
+}
+
+// Handle filter changes
+function handleFilterChange() {
+  const filterTags = ["Cucumber", "Apple", "Black Gram"];
+  const filterContainer = document.getElementById("filterTags");
+  filterContainer.innerHTML = ""; // Clear existing tags
+
+  filterTags.forEach((tag) => {
+    const tagElement = document.createElement("button");
+    tagElement.classList.add("filter-tag");
+    tagElement.textContent = tag;
+    tagElement.addEventListener("click", () => renderPosts(tag));
+    filterContainer.appendChild(tagElement);
+  });
+}
+
+// Initialize community page
+function initCommunityPage() {
+  renderPosts(); // Render all posts initially
+  handleFilterChange(); // Set up filters
+}
+
+// Initialize the community page on load
+document.addEventListener("DOMContentLoaded", () => {
+  initCommunityPage();
+});
+// Show the pop-up when the "New Post" button is clicked
+document.getElementById("addPostButton").addEventListener("click", () => {
+  const popup = document.getElementById("newPostPopup");
+  popup.style.display = "flex"; // Show the pop-up
+});
+
+// Hide the pop-up when the "Cancel" button is clicked
+document.getElementById("cancelPostButton").addEventListener("click", () => {
+  const popup = document.getElementById("newPostPopup");
+  popup.style.display = "none"; // Hide the pop-up
+});
+
+// Handle the "Post" button click
+document.getElementById("submitPostButton").addEventListener("click", () => {
+  const postTextInput = document.getElementById("postTextInput");
+  const postText = postTextInput.value.trim();
+
+  if (postText === "" && !selectedMedia) {
+    alert("Please enter some text or add media for your post.");
+    return;
+  }
+
+  // Add the new post to the posts array
+  const authorName = "New User";
+  const authorImage = "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png";
+  const crop = "General";
+
+  let postMedia = null;
+  if (selectedMedia) {
+    postMedia = URL.createObjectURL(selectedMedia); // Create a URL for the media file
+  }
+
+  addPost(authorName, authorImage, postMedia, postText, crop);
+
+  // Clear the input and hide the pop-up
+  postTextInput.value = "";
+  selectedMedia = null;
+  document.getElementById("mediaPreviewText").textContent = "No media selected";
+  const popup = document.getElementById("newPostPopup");
+  popup.style.display = "none";
+});
+let selectedMedia = null; // Store the selected media file
+
+// Handle media selection
+document.getElementById("mediaInput").addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  const mediaPreviewText = document.getElementById("mediaPreviewText");
+
+  if (file) {
+    selectedMedia = file;
+    mediaPreviewText.textContent = `Selected: ${file.name}`;
+  } else {
+    selectedMedia = null;
+    mediaPreviewText.textContent = "No media selected";
+  }
+});
