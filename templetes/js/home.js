@@ -28,9 +28,50 @@ function showPage(pageName) {
   }
   
   // Optionally, if you have a “three dots” menu on top right
-  function showMenu() {
-    alert("Implement top-right menu actions here");
+  // Function to show the language selection modal
+function showMenu() {
+  // Check if container already exists
+  if (document.getElementById("languageModal")) return;
+  
+  // Create modal container
+  const modal = document.createElement("div");
+  modal.id = "languageModal";
+  modal.className = "language-modal";
+  
+  // Modal inner content with language options
+  modal.innerHTML = `
+    <div class="language-modal-content">
+      <h3>Select Language</h3>
+      <ul class="language-list">
+        <li onclick="changeLanguage('en')">English</li>
+        <li onclick="changeLanguage('te')">Telugu</li>
+        <li onclick="changeLanguage('hi')">Hindi</li>
+      </ul>
+      <button class="btn btn-secondary" onclick="closeLanguageModal()">Close</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+// Function to handle language change
+function changeLanguage(lang) {
+  // Save language preference (you can later use this in your localization logic)
+  localStorage.setItem("language", lang);
+  
+  // For demonstration: reload the page so that your app can update texts accordingly.
+  // In a real app, you might call your translation library's update function.
+  alert("Language changed to " + (lang === 'en' ? "English" : lang === 'te' ? "Telugu" : "Hindi"));
+  window.location.reload();
+}
+
+// Function to close language modal
+function closeLanguageModal() {
+  const modal = document.getElementById("languageModal");
+  if (modal) {
+    modal.remove();
   }
+}
   
   const apiKey = "pub_79524ed4759ec82eab46bff07da8964f7e7ce";
   const apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=agriculture%20in%20india&country=in`;
@@ -599,7 +640,7 @@ function logout() {
 
 
 function loadStoreProducts() {
-  const loadingElement = document.getElementById("loading");
+  const loadingElement = document.getElementById("loading1");
   const productsContainer = document.getElementById("productsContainer");
 
   // Show the loading element
