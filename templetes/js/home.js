@@ -418,12 +418,13 @@ const posts = [
 ];
 
 // Render posts dynamically
-function renderPosts(filterCrop = null) {
+// Render posts dynamically
+function renderPosts(filterTag = null) {
   const postsContainer = document.getElementById("postsContainer");
   postsContainer.innerHTML = ""; // Clear existing posts
 
-  const filteredPosts = filterCrop
-    ? posts.filter((post) => post.crop === filterCrop)
+  const filteredPosts = filterTag
+    ? posts.filter((post) => post.tag === filterTag)
     : posts;
 
   filteredPosts.forEach((post) => {
@@ -440,10 +441,14 @@ function renderPosts(filterCrop = null) {
       }
     }
 
+    // Add "HIRE ME" tag if the post has the tag
+    const hireTag = post.tag === "hire" ? `<span class="hire-tag">HIRE ME</span>` : "";
+
     postElement.innerHTML = `
       <div class="post-header">
         <img src="${post.authorImage}" alt="${post.authorName}" class="author-image" />
         <span class="author-name">${post.authorName}</span>
+        ${hireTag}
       </div>
       ${mediaContent}
       <p class="post-text">${post.postText}</p>
@@ -460,20 +465,25 @@ function renderPosts(filterCrop = null) {
 }
 
 // Add a new post
-function addPost(authorName, authorImage, postMedia, postText, crop) {
+function addPost(authorName, authorImage, postMedia, postText, crop, tag = null) {
   posts.unshift({
     authorName,
     authorImage,
-    postMedia, // Add media to the post object
+    postMedia,
     postText,
     likes: 0,
     dislikes: 0,
     comments: [],
     crop,
+    tag, // Add the tag to the post object
   });
   renderPosts(); // Re-render posts
 }
 
+// Handle the "Post" button click
+
+
+// Add a new post
 // Handle filter changes
 function handleFilterChange() {
   const filterTags = ["Cucumber", "Apple", "Black Gram"];
@@ -515,6 +525,7 @@ document.getElementById("cancelPostButton").addEventListener("click", () => {
 document.getElementById("submitPostButton").addEventListener("click", () => {
   const postTextInput = document.getElementById("postTextInput");
   const postText = postTextInput.value.trim();
+  const hireMeTag = document.getElementById("hireMeTag").checked;
 
   if (postText === "" && !selectedMedia) {
     alert("Please enter some text or add media for your post.");
@@ -531,12 +542,15 @@ document.getElementById("submitPostButton").addEventListener("click", () => {
     postMedia = URL.createObjectURL(selectedMedia); // Create a URL for the media file
   }
 
-  addPost(authorName, authorImage, postMedia, postText, crop);
+  const tag = hireMeTag ? "hire" : null;
+
+  addPost(authorName, authorImage, postMedia, postText, crop, tag);
 
   // Clear the input and hide the pop-up
   postTextInput.value = "";
   selectedMedia = null;
   document.getElementById("mediaPreviewText").textContent = "No media selected";
+  document.getElementById("hireMeTag").checked = false;
   const popup = document.getElementById("newPostPopup");
   popup.style.display = "none";
 });
@@ -752,3 +766,113 @@ document.querySelectorAll('.product-actions button').forEach(button => {
     }
   });
 });
+// Array to store products
+let products = [
+  { name: "Organic Neem Oil", price: 299, image: "https://tiimg.tistatic.com/fp/1/008/275/a-grade-indian-origin-common-cultivation-99-9-pure-fresh-agriculture-products-627.jpg" },
+  { name: "Bio Fungicide", price: 199, image: "https://agribegri.com/productimage/dddf27cecdabeb2c78d5283ef6908de1-12-02-23-11-42-45.webp" },
+];
+
+// Function to render products
+// Function to render products
+function renderProducts() {
+  const productsContainer = document.getElementById("productsContainer");
+  productsContainer.innerHTML = ""; // Clear existing products
+
+  products.forEach((product) => {
+    const productCard = document.createElement("div");
+    productCard.className = "product-card";
+    productCard.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h5>${product.name}</h5>
+      <p class="price">₹${product.price}</p>
+      <div class="product-actions">
+        <button class="btn btn-primary btn-sm">Buy Now</button>
+        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+      </div>
+    `;
+    productsContainer.prepend(productCard); // Add new products to the top
+  });
+}
+
+// Handle selling a product
+document.getElementById("submitSellButton").addEventListener("click", () => {
+  const productImageInput = document.getElementById("productImageInput");
+  const productDescription = document.getElementById("productDescription").value.trim();
+  const productPrice = document.getElementById("productPrice").value.trim();
+
+  // Check if all fields are filled
+  if (!productImageInput.files.length) {
+    alert("Please upload an image.");
+    return;
+  }
+  if (!productDescription) {
+    alert("Please enter a product description.");
+    return;
+  }
+  if (!productPrice || isNaN(productPrice) || productPrice <= 0) {
+    alert("Please enter a valid price.");
+    return;
+  }
+
+  const productImage = URL.createObjectURL(productImageInput.files[0]);
+
+  // Add the new product to the products array
+  products.unshift({
+    name: productDescription,
+    price: productPrice,
+    image: productImage,
+  });
+
+  // Re-render products and hide the pop-up
+  renderProducts();
+  document.getElementById("sellProductPopup").style.display = "none";
+
+  // Clear the input fields
+  productImageInput.value = "";
+  document.getElementById("productDescription").value = "";
+  document.getElementById("productPrice").value = "";
+});
+
+// Initial render of products
+document.addEventListener("DOMContentLoaded", renderProducts);
+
+// Show the Sell Product pop-up
+document.getElementById("sellProductButton").addEventListener("click", () => {
+  document.getElementById("sellProductPopup").style.display = "flex";
+});
+
+// Hide the Sell Product pop-up
+document.getElementById("cancelSellButton").addEventListener("click", () => {
+  document.getElementById("sellProductPopup").style.display = "none";
+});
+
+// Handle selling a product
+document.getElementById("submitSellButton").addEventListener("click", () => {
+  const productImageInput = document.getElementById("productImageInput");
+  const productDescription = document.getElementById("productDescription").value.trim();
+  const productPrice = document.getElementById("productPrice").value.trim();
+
+  if (!productImageInput.files[0] || !productDescription || !productPrice) {
+    alert("Please fill all fields and upload an image.");
+    return;
+  }
+
+  const productImage = URL.createObjectURL(productImageInput.files[0]);
+
+  // Add the new product to the products array
+  products.push({
+    name: productDescription,
+    price: productPrice,
+    image: productImage,
+  });
+
+  // Re-render products and hide the pop-up
+  renderProducts();
+  document.getElementById("sellProductPopup").style.display = "none";
+
+  // Clear the input fields
+  productImageInput.value = "";
+  document.getElementById("productDescription").value = "";
+  document.getElementById("productPrice").value = "";
+});
+

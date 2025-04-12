@@ -164,11 +164,8 @@
         <h2>Community</h2>
         <input type="text" id="searchInput" placeholder="What's in your mind" />
         <div class="filter-section">
-          <span>Filter by</span>
-          
-          <div id="filterTags" class="filter-tags">
-            <!-- Filter tags will be dynamically added here -->
-          </div>
+          <button class="btn btn-primary" onclick="renderPosts()">ALL POSTS</button>
+          <button class="btn btn-secondary" onclick="renderPosts('hire')">HIRE LABOUR</button>
         </div>
       </header>
     
@@ -177,7 +174,7 @@
       </div>
     
       <button id="addPostButton" class="add-post-btn">+ Ask Community</button>
-      <!-- Pop-Up Container -->
+    
       <!-- Pop-Up Container -->
       <div id="newPostPopup" class="popup-container" style="display: none;">
         <div class="popup-content">
@@ -189,6 +186,10 @@
             <p id="mediaPreviewText" style="margin-top: 10px; font-size: 14px; color: gray;">No media selected</p>
           </div>
           <div class="popup-actions">
+            <label>
+              <input type="checkbox" id="hireMeTag" />
+              <span>HIRE ME</span>
+            </label>
             <button id="cancelPostButton" class="btn btn-secondary">Cancel</button>
             <button id="submitPostButton" class="btn btn-primary">Post</button>
           </div>
@@ -200,11 +201,23 @@
     <!-- STORE PAGE -->
     <section id="storePage" class="page">
       <h2>Store</h2>
+      <button id="sellProductButton" class="btn btn-primary">Sell Product</button>
       <div id="loading1" class="loading" style="display: none;">Loading products...</div>
-      <div class="d-flex flex-row justify-content-center">
-        <div id="productsContainer" class="products-grid"></div>
+      <div class="products-grid" id="productsContainer"></div>
+    
+      <!-- Sell Product Pop-Up -->
+      <div id="sellProductPopup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+          <h3>Sell Your Product</h3>
+          <input type="file" id="productImageInput" accept="image/*" style="margin-bottom: 10px;" />
+          <textarea id="productDescription" placeholder="Enter product description" style="width: 100%; height: 60px; margin-bottom: 10px;"></textarea>
+          <input type="number" id="productPrice" placeholder="Enter price (₹)" style="width: 100%; margin-bottom: 10px;" />
+          <div class="popup-actions">
+            <button id="cancelSellButton" class="btn btn-secondary">Cancel</button>
+            <button id="submitSellButton" class="btn btn-primary">Sell Product</button>
+          </div>
+        </div>
       </div>
-      
     </section>
 
     <!-- YOU PAGE -->

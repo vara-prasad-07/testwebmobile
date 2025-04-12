@@ -867,9 +867,9 @@ video.post-media {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Two products per row */
+  gap: 15px; /* Space between product cards */
+  margin-top: 20px;
 }
 
 .product-card {
@@ -878,6 +878,7 @@ video.post-media {
   border-radius: 8px;
   padding: 10px;
   text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .product-card img {
@@ -1090,4 +1091,16 @@ video.post-media {
 
 .language-list li:hover {
   background: #f0f0f0;
+}
+
+.hire-tag {
+  background-color: #ffcc00;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
