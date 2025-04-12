@@ -596,3 +596,118 @@ function logout() {
       }
   }, 1500); // Show loading for 1.5 seconds
 }
+
+
+function loadStoreProducts() {
+  const loadingElement = document.getElementById("loading");
+  const productsContainer = document.getElementById("productsContainer");
+
+  // Show the loading element
+  loadingElement.style.display = "block";
+
+  // Simulate fetching products (replace this with an actual API call if needed)
+  setTimeout(() => {
+    const products = [
+      { name: "Organic Neem Oil", price: 299, image: "https://tiimg.tistatic.com/fp/1/008/275/a-grade-indian-origin-common-cultivation-99-9-pure-fresh-agriculture-products-627.jpg" },
+      { name: "Bio Fungicide", price: 199, image: "https://agribegri.com/productimage/dddf27cecdabeb2c78d5283ef6908de1-12-02-23-11-42-45.webp" },
+      { name: "Plant Growth Booster", price: 399, image: "https://myshpl.com/web-admin/images/product/1707219459_jpg" },
+      { name: "Organic Pesticide", price: 249, image: "https://agribegri.com/productimage/f537f3c787d3de46611e4024d2db7eb0-02-13-24-11-35-19.webp" },
+      // Add more products here...
+    ];
+
+    // Generate 20 products dynamically
+    for (let i = 0; i < 20; i++) {
+      const product = products[i % products.length]; // Cycle through the sample products
+      const productCard = document.createElement("div");
+      productCard.className = "product-card";
+      productCard.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h5>${product.name}</h5>
+        <p class="price">₹${product.price}</p>
+        <div class="product-actions">
+          <button class="btn btn-primary btn-sm" onclick="buyNow('${product.name}', '${product.price}')">Buy Now</button>
+          <button class="btn btn-outline-primary btn-sm" onclick="addToCart('${product.name}', '${product.price}', '${product.image}')">Add to Cart</button>
+        </div>
+      `;
+      productsContainer.appendChild(productCard);
+    }
+
+    // Hide the loading element
+    loadingElement.style.display = "none";
+  }, 1500); // Simulate a 1.5-second delay
+}
+
+// Function to handle "Buy Now"
+function buyNow(productName, productPrice) {
+  alert(`Thank you for your interest in ${productName}. We will reach out to you soon with product details.`);
+}
+
+// Function to handle "Add to Cart"
+function addToCart(productName, productPrice, productImage) {
+  cart.push({ name: productName, price: productPrice, image: productImage });
+  updateCartCount();
+  alert(`${productName} has been added to your cart.`);
+}
+
+// Call loadStoreProducts when the store section is opened
+document.querySelector(".nav-btn[onclick=\"showPage('store')\"]").addEventListener("click", loadStoreProducts);
+
+
+// Cart array to store added products
+let cart = []; // Array to store cart items
+
+// Function to update the cart count in the header
+function updateCartCount() {
+  const cartCount = document.getElementById("cartCount");
+  cartCount.textContent = `(${cart.length})`;
+}
+
+// Function to show the cart modal
+function showCart() {
+  const cartContainer = document.createElement("div");
+  cartContainer.className = "cart-container";
+  cartContainer.innerHTML = `
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="btn btn-danger" onclick="closeCart()">Close</button>
+    </div>
+    <div class="cart-items">
+      ${cart.length > 0
+        ? cart.map(item => `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+              <h5>${item.name}</h5>
+              <p>${item.price}</p>
+            </div>
+          </div>
+        `).join("")
+        : "<p>Your cart is empty.</p>"}
+    </div>
+  `;
+  document.body.appendChild(cartContainer);
+}
+
+// Function to close the cart modal
+function closeCart() {
+  const cartContainer = document.querySelector(".cart-container");
+  if (cartContainer) {
+    cartContainer.remove();
+  }
+}
+
+// Add product to cart
+document.querySelectorAll('.product-actions button').forEach(button => {
+  button.addEventListener('click', function () {
+    const product = this.closest('.product-card');
+    const productName = product.querySelector('h5').textContent;
+    const productPrice = product.querySelector('.price').textContent;
+    const productImage = product.querySelector('img').src;
+
+    if (this.textContent === 'Add to Cart') {
+      cart.push({ name: productName, price: productPrice, image: productImage });
+      updateCartCount();
+      alert(`${productName} has been added to your cart.`);
+    }
+  });
+});
