@@ -44,6 +44,9 @@
       </svg>
     </button>
     <h1 class="app-title">AgroGaurds</h1>
+    <button id="cartButton" class="icon-btn" onclick="showCart()">
+      🛒 <span id="cartCount">(0)</span>
+    </button>
     <!-- Right icons or menu if needed -->
     <button class="icon-btn" onclick="showMenu()">
       <!-- Dots icon -->
@@ -138,7 +141,7 @@
           </div>
         </div>
       </div>
-        <button class="take-picture-btn-home btn bg-primary">Get Started</button>
+        <button class="take-picture-btn-home btn bg-primary text-white" onclick="showPage('you')">Get Started</button>
       </div>
 
       <!-- Weather Report -->
@@ -197,7 +200,8 @@
     <!-- STORE PAGE -->
     <section id="storePage" class="page">
       <h2>Store</h2>
-      <p>This is the Store screen content...</p>
+      <div id="loading" class="loading" style="display: none;">Loading products...</div>
+      <div id="productsContainer" class="products-grid"></div>
     </section>
 
     <!-- YOU PAGE -->
